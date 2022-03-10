@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,19 +8,34 @@
     <title>Anti-Asian Racism Survey Quiz</title>
 
     <link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/quiz.css">
 
-    	<!-- fonts -->
-	<link rel="stylesheet" href="https://use.typekit.net/tbs6myl.css">
+    <!-- fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/tbs6myl.css">
 </head>
-<body>
-    <div id="game" class="container">
-        <section id="game" class="justify-center flex-column">
-			<img src="images/oasw-logo-horizontal-English.png" alt="OASW Logo" class="game-logo">
 
-            <h2 id="question">Test question?</h2> 
-            
+<body>
+    <div class="container">
+        <section id="game" class="justify-center flex-column">
+            <img src="images/oasw-logo-horizontal-English.png" alt="OASW Logo" class="game-logo">
+
+            <section class="hud" id="hud">
+                <section class="hud-item" id="hud-question">
+                    <p id="progressText" class="hud-prefix"></p>
+                    <!-- <h1 class="hud-main-text" id="questionCounter"></h1> -->
+                    <section id="progress-bar">
+                        <div id="progress-bar-full"></div>
+                    </section>
+                </section>
+                <section class="hud-item" id="hud-score">
+                    <p class="hud-prefix">Score</p>
+                    <h1 class="hud-main-text" id="scoreText">0</h1>
+                </section>
+            </section>
+
+            <h2 id="question">Test question?</h2>
+
             <div class="choice-container">
                 <p class="choice-prefix flex-center">A</p>
                 <p class="choice-text" data-number="1">Choice 1</p>
@@ -40,6 +56,7 @@
         </section>
     </div>
 
-    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
 </body>
+
 </html>

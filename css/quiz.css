@@ -4,6 +4,7 @@
     margin-bottom: 3rem;
 }
 
+/* QUESTIONS */
 .choice-container {
     display: flex;
     margin-bottom: 0.5rem;
@@ -40,4 +41,28 @@
 .incorrect {
     background-color: #b32084;
     color: white;
+}
+
+/* HUD */
+.hud {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hud-prefix {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#progress-bar {
+    width: 20rem;
+    height: 4rem;
+    border: 0.3rem solid var(--main-green);
+}
+
+#progress-bar-full {
+    height: 3.4rem;
+    background-color: var(--main-green);
+    width: 0%;
 }
