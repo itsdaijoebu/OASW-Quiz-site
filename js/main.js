@@ -20,7 +20,7 @@ let questions = [
         question: `According to the recommendations, what should we help the community address?`,
         choice1: `Their waning food supplies`,
         choice2: `The impacts of social media on mental health`,
-        choice3: `Their fear and stigma`,
+        choice3: `Their fear and stigma about Asians during Covid-19`,
         choice4: `B and C`,
         answer: 3
     },
