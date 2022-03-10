@@ -1,0 +1,33 @@
+.game-logo {
+    align-self: center;
+    width: 30rem;
+    margin-bottom: 3rem;
+}
+
+.choice-container {
+    display: flex;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    font-size: 1.8rem;
+    border: 0.1rem solid var(--accent-green);
+    background-color: white;
+    align-items: stretch;
+}
+.choice-container:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+    transform: translateY(-0.1rem);
+    transition: transform 150ms;
+}
+
+.choice-prefix {
+    display: flex;
+    padding: 0 2.5rem;
+    background-color: var(--main-green);
+    color: white;
+    margin: 0;
+}
+
+.choice-text {
+    padding: 1.5rem;
+}
