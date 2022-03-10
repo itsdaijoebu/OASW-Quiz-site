@@ -31,3 +31,13 @@
 .choice-text {
     padding: 1.5rem;
 }
+
+.correct {
+    background-color: var(--main-green);
+    color: white;
+}
+
+.incorrect {
+    background-color: #b32084;
+    color: white;
+}
