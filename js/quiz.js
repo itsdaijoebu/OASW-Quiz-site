@@ -1,9 +1,10 @@
 const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
-const progressText = document.getElementById('progressText');
-const scoreText = document.getElementById('scoreText');
+const scoreText = document.getElementById('score-text');
+const progressText = document.getElementById('progress-text');
+const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
-
+const timerText = document.getElementById('timer-text')
 
 const CORRECT_POINTS = 1;   //points given on correct answer
 let maxQuestions;    // questions user answers before finishing quiz
@@ -40,12 +41,12 @@ let availableQuestions = {};
 //     }
 // ];
 
-let questions=[]
+let questions = []
 
-fetch("questions.json").then(res=>{
+fetch("questions.json").then(res => {
     return res.json();
 }).then(loadedQuestions => {
-    console.log(loadedQuestions);
+    // console.log(loadedQuestions);
     questions = loadedQuestions;
     maxQuestions = questions.length;
     startGame();
@@ -56,7 +57,7 @@ fetch("questions.json").then(res=>{
 
 
 startGame = () => {
-    console.log("started")
+    // console.log("started")
     questionCounter = 0;
     score = 0;
     availableQuestions = { ...questions };
@@ -71,8 +72,8 @@ getNewQuestion = () => {
         return window.location.assign("/results.html");
     }
 
-    progressText.innerText = `Question: ${questionCounter+1}/${maxQuestions}`;
-    progressBarFull.style.width = `${(questionCounter+1)/maxQuestions * 100}%`;
+    progressText.innerText = `Question: ${questionCounter + 1}/${maxQuestions}`;
+    progressBarFull.style.width = `${(questionCounter + 1) / maxQuestions * 100}%`;
 
     // //if random question
     // if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
@@ -96,27 +97,29 @@ getNewQuestion = () => {
     // availableQuestions.splice(questionIndex, 1);
 
     acceptingAnswers = true;
+
+    countdown(45000);
 };
 
 choices.forEach(choice => {
     choice.addEventListener('click', e => {
         if (!acceptingAnswers) return
 
-        acceptingAnswers = false;
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset["number"];
         let classToApply = (selectedAnswer == currentQuestion.answer) ? 'correct' : 'incorrect';
 
-        if(classToApply === 'correct') {
+        if (classToApply === 'correct') {
             incrementScore(CORRECT_POINTS);
-        } 
+        }
 
         selectedChoice.classList.add(classToApply);
 
-        setTimeout( () => {
-            selectedChoice.classList.remove(classToApply);
-            getNewQuestion()
-        }, 1000);
+        // setTimeout(() => {
+        //     resetChoices();
+        // }, 1000);
+        // resetChoices();
+        answered();
 
     })
 })
@@ -126,4 +129,74 @@ incrementScore = num => {
     scoreText.innerText = score;
 }
 
-// startGame();
+//Countdown timer
+let interval = 100; // ms
+let expected = Date.now() + interval;
+let rawTimer;
+let timer;
+let targetTime;
+function countdown(rawMaxTime) {
+    clearTimeout(step);
+    targetTime = Date.now() + rawMaxTime;
+
+    setTimeout(step, interval);
+
+}
+
+function step() {
+    let dt = Date.now() - expected; // the drift (positive for overshooting)
+    // if (dt > interval) {
+    //     // something really bad happened. Maybe the browser (tab) was inactive?
+    //     // possibly special handling to avoid futile "catch up" run
+    //     console.error('something happened with the timer')
+    // }
+    rawTimer = targetTime - Date.now();
+    timer = rawTimer / 1000;
+
+    if (rawTimer >= 0 && rawTimer >= 1000) {
+        timer = Math.round(timer)
+        timerText.innerText = timer;
+    } else if (rawTimer >= 0 && rawTimer < 1000) {
+
+        timerText.innerText = timer.toFixed(2);
+    }
+    else if (timer < 0) {
+        clearTimeout(step);
+        timerText.innerText = 0;
+        console.log("timed out");
+        answered();
+        // resetChoices();
+        return;
+    } else {
+        console.error("the timer isn't equal to, above, or below 0")
+    }
+
+    console.log(timer)
+
+
+
+    expected += interval;
+    setTimeout(step, Math.max(0, interval - dt)); // take into account drift
+}
+
+function answered() {
+    acceptingAnswers = false;
+
+    choices.forEach(choice => {
+        choice.classList.add("inactive")
+    })
+
+    resetChoices();
+}
+
+function resetChoices() {
+    setTimeout(() => {
+        choices.forEach(choice => {
+            choice.classList.remove("inactive");
+            choice.classList.remove("correct");
+            choice.classList.remove("incorrect");
+        })
+        getNewQuestion();
+    }, 1000);
+
+}
