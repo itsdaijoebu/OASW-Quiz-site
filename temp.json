@@ -1,0 +1,16 @@
+{
+    "question": "Why did the chicken cross the road?",
+    "choice1": "To get to the other side",
+    "choice2": "I'm not sure she'd be comfortable with me sharing that information",
+    "choice3": "Because she was having an existential crisis and that's where her psychotherapist's office was",
+    "choice4": "None of the above",
+    "answer": 4
+},
+{
+    "question": "What is the best thing to put on toast?",
+    "choice1": "Butter",
+    "choice2": "Nutella",
+    "choice3": "Avocado",
+    "choice4": "Jam",
+    "answer": 2
+},

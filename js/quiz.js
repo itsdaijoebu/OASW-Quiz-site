@@ -79,8 +79,8 @@ getNewQuestion = () => {
         return window.location.assign("/end.html");
     }
 
-    progressText.innerText = `Question: ${questionNumber + 1}/${maxQuestions}`;
-    progressBarFull.style.width = `${(questionNumber + 1) / maxQuestions * 100}%`;
+    progressText.innerText = `Question: ${questionNumber+1}/${maxQuestions}`;
+    progressBarFull.style.width = `${(questionNumber+1) / maxQuestions * 100}%`;
 
     // //if random question
     // if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
@@ -258,8 +258,10 @@ function fetchGSheets() {
             // })
             data.table.rows.forEach((main) => {
                 questionNumber = main.c[0].v;
+                questionNumber -= 1;
                 doContinue = main.c[1].v;
                 timePerQuestion = main.c[2].v;
+                timePerQuestion *= 1000
                 console.log(`${questionNumber}, ${doContinue}, ${timePerQuestion}`)
                 // const container = document.createElement('tr');
                 // output.append(container);

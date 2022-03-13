@@ -147,3 +147,11 @@ nav, nav *{
 .logo {
      width: 30rem;
 }
+
+.final-score-text {
+     margin-top: 3rem;
+}
+
+.final-score-numbers {
+     margin-bottom: 3rem;
+}

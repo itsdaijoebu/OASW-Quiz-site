@@ -22,17 +22,14 @@
     transition: transform 150ms;
 }
 .inactive + .choice-prefix {
-    background-color: grey;
-    background-image: url("../images/red-x.png");
+    background-color: rgba(236, 2, 2, 0.904);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 .correctTag + .choice-prefix {
-    background-image: url("../images/green-checkmark.png");
+    background-color: var(--accent-green);
 }
-
-
 
 .choice-prefix {
     display: flex;
