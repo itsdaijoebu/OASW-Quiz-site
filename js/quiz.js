@@ -5,22 +5,21 @@ const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
-let timePerQuestion = 5000;
+let timePerQuestion = 30000;
 
 const CORRECT_POINTS = 1;   //points given on correct answer
 let maxQuestions;    // questions user answers before finishing quiz
 let currentQuestion = {};
 let acceptingAnswers = true;
 let score = 0;
-let questionCounter = 0;
+// let questionNumber = 0;
 let availableQuestions = {};
 let selectedChoice = null;    //holds the selected answer while user can still choose
 
 // google sheets and whether or not to continue
 // const output = document.getElementById("output")
 let url = "https://docs.google.com/spreadsheets/d/1P16bFHWQ-0_e7AZKztlNoHUMqJR08hKDKC3i4Lwq0ac/gviz/tq?"
-let doPoll = true;
-let doContinue = false; //determines whether to poll google sheets
+let doContinue = false;
 let questionNumber = 0;
 
 // let questions = [
@@ -50,6 +49,8 @@ let questionNumber = 0;
 //     }
 // ];
 
+fetchGSheets();
+
 let questions = []
 
 fetch("questions.json").then(res => {
@@ -63,11 +64,8 @@ fetch("questions.json").then(res => {
     console.error(err);
 })
 
-
-
 startGame = () => {
     // console.log("started")
-    questionCounter = 0;
     score = 0;
     availableQuestions = { ...questions };
     getNewQuestion();
@@ -75,14 +73,14 @@ startGame = () => {
 
 
 getNewQuestion = () => {
-    if (questionCounter >= questions.length) {
+    if (questionNumber >= questions.length) {
         localStorage.setItem('mostRecentScore', score);
         // go to end page
         return window.location.assign("/end.html");
     }
 
-    progressText.innerText = `Question: ${questionCounter + 1}/${maxQuestions}`;
-    progressBarFull.style.width = `${(questionCounter + 1) / maxQuestions * 100}%`;
+    progressText.innerText = `Question: ${questionNumber + 1}/${maxQuestions}`;
+    progressBarFull.style.width = `${(questionNumber + 1) / maxQuestions * 100}%`;
 
     // //if random question
     // if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
@@ -93,9 +91,9 @@ getNewQuestion = () => {
     // currentQuestion = availableQuestions[questionIndex];
 
     //if questions go from recommendation 1-16
-    currentQuestion = availableQuestions[questionCounter];
+    currentQuestion = availableQuestions[questionNumber];
     question.innerText = currentQuestion.question;
-    questionCounter++;
+    // questionCounter++;
 
     choices.forEach(choice => {
         const number = choice.dataset['number'];
@@ -105,6 +103,7 @@ getNewQuestion = () => {
     // //if random questions
     // availableQuestions.splice(questionIndex, 1);
 
+    selectedChoice = null;
     acceptingAnswers = true;
 
     countdown(timePerQuestion);
@@ -113,10 +112,7 @@ getNewQuestion = () => {
 choices.forEach(choice => {
     choice.addEventListener('click', e => {
         if (!acceptingAnswers) return
-
         answerSelected(e);
-
-
     })
 })
 
@@ -177,19 +173,18 @@ function step() {
     setTimeout(step, Math.max(0, interval - dt)); // take into account drift
 }
 
-
 function answerSelected(e = -1) {
     choices.forEach(choice => {
         choice.classList.remove('selected')
     })
     selectedChoice = e.target;
     selectedChoice.classList.add('selected')
-
-
 }
 
 function revealAnswers() {
     let classToApply = ' '
+
+    
     if (selectedChoice) {
         let selectedAnswer = selectedChoice.dataset["number"];
         classToApply = (selectedAnswer == currentQuestion.answer) ? 'correct' : 'incorrect';
@@ -202,8 +197,11 @@ function revealAnswers() {
 
     acceptingAnswers = false;
 
+
     choices.forEach(choice => {
-        choice.classList.add("inactive")
+        choice.classList.add("inactive");
+        let choiceIndex = choice.dataset["number"];
+        if(choiceIndex == currentQuestion.answer) choice.classList.add('correctTag')
     })
 
     // // setTimeout(() => {
@@ -229,45 +227,59 @@ function resetChoices() {
         choice.classList.remove("correct");
         choice.classList.remove("incorrect");
         choice.classList.remove("selected");
+        choice.classList.remove("correctTag");
     })
 
-    doPoll = true;
+    doContinue = false;
     getNewQuestion();
 }
 
 function pollGSheets() {
     console.log("fetching google sheets")
     setTimeout(() => {
-        if (!doPoll) return resetChoices();
+        if (doContinue) return resetChoices();
 
-        fetch(url)
-            .then(res => res.text())
-            .then(rep => {
-                const data = JSON.parse(rep.substring(47).slice(0, -2));
-                // const row = document.createElement('tr');
-                // output.append(row);
-                // data.table.cols.forEach((heading)=>{
-                //     const cell = document.createElement('td');
-                //     cell.textContent = heading.label;
-                //     row.append(cell);
-                // })
-                data.table.rows.forEach((main) => {
-                    questionNumber = main.c[0].v;
-                    doPoll = main.c[1].v;
-                    console.log(`${questionNumber}, ${doPoll}`)
-                    // const container = document.createElement('tr');
-                    // output.append(container);
-                    // main.c.forEach((ele => {
-                    //      const cell = document.createElement('td');
-                    //      cell.textContent = ele.v;
-
-                    //      container.append(cell);
-                    // }))
-                })
-
-                // console.log(data)
-            })
+        fetchGSheets();
         pollGSheets();
     }, 5000);
 }
 
+function fetchGSheets() {
+    fetch(url)
+        .then(res => res.text())
+        .then(rep => {
+            const data = JSON.parse(rep.substring(47).slice(0, -2));
+            // const row = document.createElement('tr');
+            // output.append(row);
+            // data.table.cols.forEach((heading)=>{
+            //     const cell = document.createElement('td');
+            //     cell.textContent = heading.label;
+            //     row.append(cell);
+            // })
+            data.table.rows.forEach((main) => {
+                questionNumber = main.c[0].v;
+                doContinue = main.c[1].v;
+                timePerQuestion = main.c[2].v;
+                console.log(`${questionNumber}, ${doContinue}, ${timePerQuestion}`)
+                // const container = document.createElement('tr');
+                // output.append(container);
+                // main.c.forEach((ele => {
+                //      const cell = document.createElement('td');
+                //      cell.textContent = ele.v;
+
+                //      container.append(cell);
+                // }))
+            })
+        })
+}
+
+function fetchQuestionNumber() {
+    fetch(url)
+    .then(res => res.text())
+    .then(rep => {
+        const data = JSON.parse(rep.substring(47).slice(0, -2));
+        data.table.rows.forEach((main) => {
+            return main.c[0].v;
+        })
+    })
+}

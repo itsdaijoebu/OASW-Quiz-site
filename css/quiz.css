@@ -13,6 +13,7 @@
     border: 0.1rem solid var(--accent-green);
     background-color: white;
     align-items: stretch;
+    flex-direction: row-reverse;
 }
 .choice-container:hover {
     cursor: pointer;
@@ -20,6 +21,18 @@
     transform: translateY(-0.1rem);
     transition: transform 150ms;
 }
+.inactive + .choice-prefix {
+    background-color: grey;
+    background-image: url("../images/red-x.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.correctTag + .choice-prefix {
+    background-image: url("../images/green-checkmark.png");
+}
+
+
 
 .choice-prefix {
     display: flex;
