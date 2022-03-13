@@ -40,6 +40,11 @@
     background-color: rgb(206, 205, 205);
 }
 
+.selected {
+    background-color: rgb(185, 193, 218);
+    box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+}
+
 .correct {
     background-color: var(--main-green);
     color: white;

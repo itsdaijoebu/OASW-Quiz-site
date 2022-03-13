@@ -5,6 +5,7 @@ const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
+let timePerQuestion = 5000;
 
 const CORRECT_POINTS = 1;   //points given on correct answer
 let maxQuestions;    // questions user answers before finishing quiz
@@ -13,6 +14,14 @@ let acceptingAnswers = true;
 let score = 0;
 let questionCounter = 0;
 let availableQuestions = {};
+let selectedChoice = null;    //holds the selected answer while user can still choose
+
+// google sheets and whether or not to continue
+// const output = document.getElementById("output")
+let url = "https://docs.google.com/spreadsheets/d/1P16bFHWQ-0_e7AZKztlNoHUMqJR08hKDKC3i4Lwq0ac/gviz/tq?"
+let doPoll = true;
+let doContinue = false; //determines whether to poll google sheets
+let questionNumber = 0;
 
 // let questions = [
 //     {
@@ -69,7 +78,7 @@ getNewQuestion = () => {
     if (questionCounter >= questions.length) {
         localStorage.setItem('mostRecentScore', score);
         // go to end page
-        return window.location.assign("/results.html");
+        return window.location.assign("/end.html");
     }
 
     progressText.innerText = `Question: ${questionCounter + 1}/${maxQuestions}`;
@@ -98,31 +107,20 @@ getNewQuestion = () => {
 
     acceptingAnswers = true;
 
-    countdown(45000);
+    countdown(timePerQuestion);
 };
 
 choices.forEach(choice => {
     choice.addEventListener('click', e => {
         if (!acceptingAnswers) return
 
-        const selectedChoice = e.target;
-        const selectedAnswer = selectedChoice.dataset["number"];
-        let classToApply = (selectedAnswer == currentQuestion.answer) ? 'correct' : 'incorrect';
+        answerSelected(e);
 
-        if (classToApply === 'correct') {
-            incrementScore(CORRECT_POINTS);
-        }
-
-        selectedChoice.classList.add(classToApply);
-
-        // setTimeout(() => {
-        //     resetChoices();
-        // }, 1000);
-        // resetChoices();
-        answered();
 
     })
 })
+
+
 
 incrementScore = num => {
     score += num;
@@ -163,40 +161,113 @@ function step() {
     else if (timer < 0) {
         clearTimeout(step);
         timerText.innerText = 0;
-        console.log("timed out");
-        answered();
+        // console.log("timed out");
+        // answered();
         // resetChoices();
+        revealAnswers();
+        pollGSheets();
         return;
     } else {
         console.error("the timer isn't equal to, above, or below 0")
     }
 
-    console.log(timer)
-
-
+    // console.log(timer)
 
     expected += interval;
     setTimeout(step, Math.max(0, interval - dt)); // take into account drift
 }
 
-function answered() {
+
+function answerSelected(e = -1) {
+    choices.forEach(choice => {
+        choice.classList.remove('selected')
+    })
+    selectedChoice = e.target;
+    selectedChoice.classList.add('selected')
+
+
+}
+
+function revealAnswers() {
+    let classToApply = ' '
+    if (selectedChoice) {
+        let selectedAnswer = selectedChoice.dataset["number"];
+        classToApply = (selectedAnswer == currentQuestion.answer) ? 'correct' : 'incorrect';
+        selectedChoice.classList.add(classToApply);
+    }
+
+    if (classToApply === 'correct') {
+        incrementScore(CORRECT_POINTS);
+    }
+
     acceptingAnswers = false;
 
     choices.forEach(choice => {
         choice.classList.add("inactive")
     })
 
-    resetChoices();
+    // // setTimeout(() => {
+    // //     resetChoices();
+    // // }, 1000);
+    // // resetChoices();
+    // answered();
 }
+
 
 function resetChoices() {
-    setTimeout(() => {
-        choices.forEach(choice => {
-            choice.classList.remove("inactive");
-            choice.classList.remove("correct");
-            choice.classList.remove("incorrect");
-        })
-        getNewQuestion();
-    }, 1000);
+    // setTimeout(() => {
+    //     choices.forEach(choice => {
+    //         choice.classList.remove("inactive");
+    //         choice.classList.remove("correct");
+    //         choice.classList.remove("incorrect");
+    //     })
+    //     getNewQuestion();
+    // }, 1000);
 
+    choices.forEach(choice => {
+        choice.classList.remove("inactive");
+        choice.classList.remove("correct");
+        choice.classList.remove("incorrect");
+        choice.classList.remove("selected");
+    })
+
+    doPoll = true;
+    getNewQuestion();
 }
+
+function pollGSheets() {
+    console.log("fetching google sheets")
+    setTimeout(() => {
+        if (!doPoll) return resetChoices();
+
+        fetch(url)
+            .then(res => res.text())
+            .then(rep => {
+                const data = JSON.parse(rep.substring(47).slice(0, -2));
+                // const row = document.createElement('tr');
+                // output.append(row);
+                // data.table.cols.forEach((heading)=>{
+                //     const cell = document.createElement('td');
+                //     cell.textContent = heading.label;
+                //     row.append(cell);
+                // })
+                data.table.rows.forEach((main) => {
+                    questionNumber = main.c[0].v;
+                    doPoll = main.c[1].v;
+                    console.log(`${questionNumber}, ${doPoll}`)
+                    // const container = document.createElement('tr');
+                    // output.append(container);
+                    // main.c.forEach((ele => {
+                    //      const cell = document.createElement('td');
+                    //      cell.textContent = ele.v;
+
+                    //      container.append(cell);
+                    // }))
+                })
+
+                // console.log(data)
+            })
+        pollGSheets();
+    }, 5000);
+}
+
