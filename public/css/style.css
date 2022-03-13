@@ -20,10 +20,17 @@
 /******************************************
 /* BASE STYLES
 /*******************************************/
-body {
+body, button {
      font-size: 1.6rem;
      font-family: 'futura-pt', sans-serif;
      font-weight: 400;
+}
+
+button {
+     display: flex;
+     justify-content: flex-start;
+     background-color: white;
+     border: none;
 }
 
 h1, h2, h3 {

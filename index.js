@@ -14,6 +14,8 @@ app.get("/", (req, res) => {
 })
 
 app.post("/", async (req, res) => {
+    const {question, choicetext} = req.body;
+
     const auth = new google.auth.GoogleAuth({
         keyFile: "credentials.json",
         scopes: "https://www.googleapis.com/auth/spreadsheets",
@@ -46,13 +48,13 @@ app.post("/", async (req, res) => {
         valueInputOption: "RAW",
         resource: {
             values: [
-                ["testing adding stuff", "let's add things"],
-                ["adding more stuff","just another cell"],
+                [choicetext],
             ],
         },
     });
 
-    res.send(getRows.data);
+    res.writeHead(302, {'location': 'and-thus-we-finish.html'});
+    res.end();
 });
 
 app.listen(1337, (req, res) => console.log("running on 1337"));

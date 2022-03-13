@@ -37,7 +37,6 @@
                 </section>
             </section>
 
-            <h2 id="question">Test question?</h2>
 
             <!-- <div class="choice-container">
                 <p class="choice-prefix flex-center">A</p>
@@ -55,22 +54,28 @@
                 <p class="choice-prefix flex-center">D</p>
                 <p class="choice-text" data-number="4">Choice 4</p>
             </div> -->
-            <form>
+            <form action="" method="post">
+                <h2 id="question" name="question">Test question?</h2>
+
                 <div class="choice-container">
                     <p class="choice-prefix flex-center">A</p>
-                    <p type="radio" class="choice-text" data-number="1">Choice 1</p>
+                    <button type="submit" id="choice1" value="A" name="choicetext" class="choice-text"
+                        data-number="1">Choice 1</button>
                 </div>
                 <div class="choice-container">
                     <p class="choice-prefix flex-center">B</p>
-                    <p class="choice-text" data-number="2">Choice 2</p>
+                    <button type="submit" id="choice2" value="B" name="choicetext" class="choice-text"
+                        data-number="2">Choice 2</button>
                 </div>
                 <div class="choice-container">
                     <p class="choice-prefix flex-center">C</p>
-                    <p class="choice-text" data-number="3">Choice 3</p>
+                    <button type="submit" id="choice3" value="C" name="choicetext" class="choice-text"
+                        data-number="3">Choice 3</button>
                 </div>
                 <div class="choice-container">
                     <p class="choice-prefix flex-center">D</p>
-                    <p class="choice-text" data-number="4">Choice 4</p>
+                    <button type="submit" id="choice4" value="D" name="choicetext" class="choice-text"
+                        data-number="4">Choice 4</button>
                 </div>
 
                 <section class="hud-item" id="hud-question">

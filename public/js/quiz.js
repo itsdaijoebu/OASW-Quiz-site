@@ -7,8 +7,6 @@ const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
 const container = document.getElementById('container')
 
-
-
 // container.style.height = 'window.innerHeight'
 
 const CORRECT_POINTS = 1;   //points given on correct answer
@@ -205,21 +203,6 @@ function resetChoices() {
     }, 1000);
 
 }
-
-
-function test() {
-    let choiceArray = {
-        choice1: 1,
-        choice2: 2,
-        choice3: 3,
-        choice4: 4
-    }
-
-    for (let i = 1; i < choices.length + 1; i++) {
-        console.log(choiceArray['choice' + i])
-    }
-}
-
 
 //survey stuff
 // const API_KEY = `AIzaSyBUEqro6yl4KhcdKrY3E7tZviN5oa2RCYw`;
