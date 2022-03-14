@@ -31,6 +31,41 @@
                     <p class="hud-prefix">Timer</p>
                     <h1 class="timer-text" id="timer-text"></h1>
                 </section>
+
+                <section class="hud-item visualizer-section" id="visualizer-section">
+                    <div class="vis-container">
+                        <span class="vis-label">A</span>
+                        <section id="visualizer-a" class="visualizer">
+                            <div id="visualizer-a-full" class="visualizer-full"></div>
+                        </section>
+                        <span id="visualizer-text-a">0</span>
+                    </div>
+
+                    <div class="vis-container">
+                        <span class="vis-label">B</span>
+                        <section id="visualizer-b" class="visualizer">
+                            <div id="visualizer-b-full" class="visualizer-full"></div>
+                        </section>
+                        <span id="visualizer-text-b">0</span>
+                    </div>
+
+                    <div class="vis-container">
+                        <span class="vis-label">C</span>
+                        <section id="visualizer-c" class="visualizer">
+                            <div id="visualizer-c-full" class="visualizer-full"></div>
+                        </section>
+                        <span id="visualizer-text-c">0</span>
+                    </div>
+
+                    <div class="vis-container">
+                        <span class="vis-label">D</span>
+                        <section id="visualizer-d" class="visualizer">
+                            <div id="visualizer-d-full" class="visualizer-full"></div>
+                        </section>
+                        <span id="visualizer-text-d">0</span>
+                    </div>
+                </section>
+
                 <section class="hud-item" id="hud-score">
                     <p class="hud-prefix">Score</p>
                     <h1 class="hud-main-text" id="score-text">0</h1>
@@ -39,7 +74,7 @@
 
             <h2 id="question">Test question?</h2>
 
-            <div class="choice-container">
+            <!-- <div class="choice-container">
                 <p class="choice-text" data-number="1">Choice 1</p>
                 <p class="choice-prefix flex-center">A</p>
             </div>
@@ -54,7 +89,32 @@
             <div class="choice-container">
                 <p class="choice-text" data-number="4">Choice 4</p>
                 <p class="choice-prefix flex-center">D</p>
-            </div>
+            </div> -->
+
+            <form name="question-choices">
+                <div class="choice-container">
+                    <input id="choice1" type="radio" name="choice" value="A">
+                    <label for="choice1" class="choice-text" data-number="1"></label>
+                    <label for="choice1" class="choice-prefix flex-center">A</label>
+                </div>
+                <div class="choice-container">
+                    <input id="choice2" type="radio" name="choice" value="B">
+                    <label for="choice2" class="choice-text" data-number="2"></label>
+                    <label for="choice2" class="choice-prefix flex-center">B</label>
+                </div>
+                <div class="choice-container">
+                    <input id="choice3" type="radio" name="choice" value="C">
+                    <label for="choice3" class="choice-text" data-number="3"></label>
+                    <label for="choice3" class="choice-prefix flex-center">C</label>
+                </div>
+                <div class="choice-container">
+                    <input id="choice4" type="radio" name="choice" value="D">
+                    <label for="choice4" class="choice-text" data-number="4"></label>
+                    <label for="choice4" class="choice-prefix flex-center">D</label>
+                </div>
+                <button id="submit-button" class="invisible" type="submit"></button>
+                <input id="question-for-google" class="invisible" type="radio" name="question" value="0" selected>
+            </form>
 
             <section class="hud-item" id="hud-question">
                 <p id="progress-text" class="hud-prefix"></p>
@@ -62,7 +122,6 @@
                     <div id="progress-bar-full"></div>
                 </section>
             </section>
-
         </section>
     </div>
 

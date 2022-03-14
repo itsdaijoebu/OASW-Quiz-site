@@ -43,26 +43,35 @@
     width: 100%;
     padding: 1.5rem;
     /* border: 2px solid gold; */
-    
+
 }
 
 .inactive {
-    background-color: rgb(206, 205, 205);
+    background: linear-gradient(to right, rgb(206, 205, 205), white);
 }
 
 .selected {
-    background-color: rgb(185, 193, 218);
+    background: linear-gradient(to right, rgb(185, 193, 218), white);
     box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+    transform: translateY(-0.2rem);
+
 }
 
 .correct {
-    background-color: var(--main-green);
+    background: linear-gradient(to right, var(--main-green), white);
     color: white;
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: black;
 }
 
 .incorrect {
-    background-color: #b32084;
+    background: linear-gradient(to right, #b32084, white);
     color: white;
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: black;
+
 }
 
 
@@ -93,4 +102,60 @@
     height: 3.4rem;
     background-color: var(--main-green);
     width: 0%;
+}
+
+.visualizer-section {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    /* border: 0.5rem solid var(--main-green); */
+    width: 70%;
+    height: 100%;
+}
+
+.visualizer {
+    width: 90%;
+    height: 1rem;
+    /* border: 0.3rem solid var(--accent-green); */
+}
+/* .visualizer:first-of-type{
+    margin-top: 2%;
+}
+.visualizer:last-child {
+    margin-bottom: 2%;
+} */
+.vis-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.25% 0;
+    padding: 0;
+}
+.vis-label{
+    margin-right: 1%;
+    font-size: 1.6rem;
+    margin: 0;
+    padding: 0;
+}
+.visualizer-full {
+    /* background: linear-gradient(to right, var(--main-green), white); */
+    background-color: var(--accent-green);
+    height: 100%;
+    margin-left: 2%;
+    padding: 0;
+}
+/* #visualizer-text-a, #visualizer-text-b, #visualizer-text-c, #visualizer-text-d {
+    align-self: flex-end;
+    justify-self: flex-end;
+} */
+
+/* THINGS THAT MAKE GOOGLE SUBMIT WORK */
+#submit-button {
+    visibility: hidden;
+}
+input {
+    cursor: pointer;
+    visibility: hidden;
+    z-index: -1;
 }

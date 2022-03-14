@@ -155,3 +155,11 @@ nav, nav *{
 .final-score-numbers {
      margin-bottom: 3rem;
 }
+
+.invisible {
+     visibility: hidden;
+     z-index: -1;
+     position: fixed;
+     top: 0;
+     left: 0;
+}
