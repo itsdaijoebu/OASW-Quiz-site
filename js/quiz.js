@@ -5,7 +5,7 @@ const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
-let timePerQuestion = 30000;
+let timePerQuestion = 45000;
 
 const CORRECT_POINTS = 1;   //points given on correct answer
 let maxQuestions;    // questions user answers before finishing quiz
