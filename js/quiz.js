@@ -1,11 +1,12 @@
 const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
+const choiceContainers = Array.from(document.querySelectorAll(`.choice-container`));
 const scoreText = document.getElementById('score-text');
 const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
-let timePerQuestion = 45000;
+let timePerQuestion = 5000;
 
 const CORRECT_POINTS = 1;   //points given on correct answer
 let maxQuestions;    // questions user answers before finishing quiz
@@ -109,10 +110,17 @@ getNewQuestion = () => {
     countdown(timePerQuestion);
 };
 
-choices.forEach(choice => {
-    choice.addEventListener('click', e => {
-        if (!acceptingAnswers) return
-        answerSelected(e);
+// choices.forEach(choice => {
+//     choice.addEventListener('click', e => {
+//         if (!acceptingAnswers) return
+//         answerSelected(e);
+//     })
+// })
+choiceContainers.forEach(container => {
+    container.addEventListener('click', () => {
+        if (!acceptingAnswers) return;
+        let el = container.querySelector('.choice-text');
+        answerSelected(el);
     })
 })
 
@@ -177,7 +185,7 @@ function answerSelected(e = -1) {
     choices.forEach(choice => {
         choice.classList.remove('selected')
     })
-    selectedChoice = e.target;
+    selectedChoice = e;
     selectedChoice.classList.add('selected')
 }
 

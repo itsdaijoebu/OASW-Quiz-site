@@ -22,7 +22,7 @@
     transition: transform 150ms;
 }
 .inactive + .choice-prefix {
-    background-color: rgba(236, 2, 2, 0.904);
+    background-color:  #961b6f;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
