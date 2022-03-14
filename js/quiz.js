@@ -43,6 +43,17 @@ const visualizerFullB = document.querySelector("#visualizer-b-full")
 const visualizerFullC = document.querySelector("#visualizer-c-full")
 const visualizerFullD = document.querySelector("#visualizer-d-full")
 
+const loader = document.querySelector("#loader")
+const mainSection = document.querySelector("#main-section")
+
+window.onload = doneLoading();
+
+function doneLoading() {
+    mainSection.classList.remove('invisible')
+    loader.classList.add('displayless')
+    console.log("done loading")
+}
+
 
 
 // let questions = [

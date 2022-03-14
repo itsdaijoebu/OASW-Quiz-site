@@ -163,3 +163,7 @@ nav, nav *{
      top: 0;
      left: 0;
 }
+
+.displayless {
+     display: none;
+}
