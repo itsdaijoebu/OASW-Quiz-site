@@ -149,6 +149,9 @@
     align-self: flex-end;
     justify-self: flex-end;
 } */
+.visualizer-text{
+    margin-left: 1rem;
+}
 
 /* THINGS THAT MAKE GOOGLE SUBMIT WORK */
 #submit-button {
