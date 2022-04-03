@@ -47,33 +47,36 @@
 }
 
 .inactive {
-    background: linear-gradient(to right, rgb(206, 205, 205), white);
+    /* background: linear-gradient(to right, rgb(206, 205, 205), white); */
+    background: rgb(206, 205, 205);
 }
 
 .selected {
-    background: linear-gradient(to right, rgb(185, 193, 218), white);
-    box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+    /* background: linear-gradient(to right, rgb(185, 193, 218), white); */
+    background: rgb(185, 193, 218);
+    box-shadow: 0 0.4rem 1.4rem 0 v ar(--hover-green);
     transform: translateY(-0.2rem);
 
 }
 
 .correct {
-    background: linear-gradient(to right, var(--main-green), white);
+    /* background: linear-gradient(to right, var(--main-green), white); */
+    background: var(--main-green);
     color: white;
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.7px;
-    -webkit-text-stroke-color: black;
+    /* font-weight: bold; */
+    /* -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: black; */
 }
 
 .incorrect {
-    background: linear-gradient(to right, #b32084, white);
+    /* background: linear-gradient(to right, #b32084, white); */
+    background: #b32084;
     color: white;
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.7px;
-    -webkit-text-stroke-color: black;
+    /* font-weight: bold; */
+    /* -webkit-text-stroke-width: 0.7px;
+    -webkit-text-stroke-color: black; */
 
 }
-
 
 
 /* HUD */
@@ -158,8 +161,8 @@
     visibility: hidden;
 }
 input {
-    cursor: pointer;
-    visibility: hidden;
+    cursor: help;
+    display: none;
     z-index: -1;
 }
 
