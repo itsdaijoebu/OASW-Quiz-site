@@ -54,35 +54,6 @@ function doneLoading() {
     console.log("done loading")
 }
 
-
-
-// let questions = [
-//     {
-//         question: `Provide community education on _______`,
-//         choice1: `the origin and nature of the pandemic`,
-//         choice2: `the origin and nature of the China flu`,
-//         choice3: `how to achieve herd immunity`,
-//         choice4: `how to minimize the pandemic's mortality rate`,
-//         answer: 1
-//     },
-//     {
-//         question: `According to the recommendations, what should we help the community address?`,
-//         choice1: `Their waning food supplies`,
-//         choice2: `The impacts of social media on mental health`,
-//         choice3: `Their fear and stigma about Asians during Covid-19`,
-//         choice4: `B and C`,
-//         answer: 3
-//     },
-//     {
-//         question: `What should be challenged?`,
-//         choice1: `Oppressive information about the pandemic you hear about from friends and family members`,
-//         choice2: `All information about the pandemic that contradicts whatever has recently been posted on Facebook`,
-//         choice3: `All information about the pandemic, regardless of where it comes from`,
-//         choice4: `False and/or oppressive information about the pandemic, especially coming from public and authority figures`,
-//         answer: 4
-//     }
-// ];
-
 fetchSettingsGSheets();
 
 let questions = []
