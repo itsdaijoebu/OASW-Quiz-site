@@ -5,9 +5,9 @@ const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
 
 const app = express();
-const PORT = 8000;
+const PORT = 3000;
 
-// app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
 
 //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,7 +24,24 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         const questions = db.collection('antiasian_racism');
 
         app.get('/', function (req, res) {
-            res.sendFile(__dirname + '/index.html');
+            console.log('index')
+            res.render('index.ejs');
+        })
+        app.get('/quiz', function (req, res) {
+            console.log('quiz')
+            db.collection('antiasian_racism').find().toArray()
+            .then(result => {
+                res.json(quiz.ejs)
+            })
+        })
+        app.get('/results', function(req, res) {
+            res.sendFile('results.ejs')
+        })
+        app.get('/api/', function(req, res) {
+            db.collection('antiasian_racism').find().toArray()
+            .then(result => {
+                res.json(result)
+            })
         })
         // app.get('/edit-cards', function (req, res) {
         //     db.collection('cards').find().toArray()
