@@ -20,28 +20,74 @@ let connectionString = process.env.MONGO_URI;
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
     .then(client => {
         console.log('connected to db');
-        const db = client.db('questions');
-        const questions = db.collection('antiasian_racism');
+        const db = client.db('antiasian_racism');
+        const questions = db.collection('questions');
+        const settings = db.collection('settings');
+        const dbQuestions = questions.find().toArray();
+        const dbSettings = settings.find().toArray();
+        let currentQuestion = 1;
+        let maxTime = 30;
 
         app.get('/', function (req, res) {
-            console.log('index')
+            console.log('index');
             res.render('index.ejs');
         })
         app.get('/quiz', function (req, res) {
             console.log('quiz')
-            db.collection('antiasian_racism').find().toArray()
-            .then(result => {
-                res.json(quiz.ejs)
-            })
+            db.collection('questions').find().toArray()
+                .then(result => {
+                    res.render('quiz.ejs', { questions: result })
+                })
         })
-        app.get('/results', function(req, res) {
+        app.get('/results', function (req, res) {
             res.sendFile('results.ejs')
         })
-        app.get('/api/', function(req, res) {
-            db.collection('antiasian_racism').find().toArray()
-            .then(result => {
-                res.json(result)
+        app.get('/api/', function (req, res) {
+            // db.collection('antiasian_racism').find().toArray()
+            // .then(result => {
+            //     res.render(result)
+            // })
+            res.render(dbQuestions);
+        })
+
+        //timer
+        app.get('/countdown', function (req, res) {
+            console.log('countdown')
+            console.log(maxTime)
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive'
             })
+            countdown(res, maxTime)
+        })
+        function countdown(res, count) {
+            res.write("data: " + count + "\n\n")
+            if (count)
+                setTimeout(() => countdown(res, count - 1), 1000)
+            else
+                res.end()
+        }
+
+        //reset calls
+        app.get('/api/resetQuestions', function (req, res) {
+            dbQuestions = questions.find().toArray();
+        })
+        app.get('/api/resetSettings', function (req, res) {
+            dbSettings = settings.find().toArray();
+        })
+        app.get('/api/resetAll', function (req, res) {
+            dbQuestions = questions.find().toArray();
+            dbSettings = settings.find().toArray();
+        })
+
+        app.get('/timer', function (req, res) {
+            console.log('timer');
+            // maxTime = dbSettings[0].time;
+            dbSettings
+                .then(result => {
+                    console.log(result[0].time)
+                })
         })
         // app.get('/edit-cards', function (req, res) {
         //     db.collection('cards').find().toArray()
@@ -73,7 +119,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         //         })
         //         .catch(error => console.error(error));
         // })
-        
+
         // app.put('/edit-cards', (req, res) => {
         //     console.log(req.body)
         // })
@@ -88,10 +134,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         //     })
         //     .catch(error => console.error(error))
         // })
-        
-
-        app.listen(process.env.PORT || PORT, function () {
-            console.log(`listening...`);
-        })
     })
     .catch(error => console.error(error));
+
+app.listen(process.env.PORT || PORT, function () {
+    console.log(`listening on ${PORT}`);
+})
