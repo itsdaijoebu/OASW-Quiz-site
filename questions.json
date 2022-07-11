@@ -2,145 +2,145 @@
     {
         "number": 0,
         "question": "What should we provide community education on?",
-        "choice1": "The origin and nature of the pandemic",
-        "choice2": "How to enjoy Chinese food without getting covid",
-        "choice3": "How to achieve herd immunity",
-        "choice4": "Where to get free rapid tests",
-        "answer": 1
+        "choice0": "The origin and nature of the pandemic",
+        "choice1": "How to enjoy Chinese food without getting covid",
+        "choice2": "How to achieve herd immunity",
+        "choice3": "Where to get free rapid tests",
+        "answer": 0
     },
     {
         "number": 1,
         "question": "What do the recommendations suggest we help the community with?",
-        "choice1": "Their increasingly expensive grocery bills",
-        "choice2": "Information overload from social media during covid",
-        "choice3": "Their fears and stigmas about Asians during Covid-19",
-        "choice4": "None of the above",
-        "answer": 3
+        "choice0": "Their increasingly expensive grocery bills",
+        "choice1": "Information overload from social media during covid",
+        "choice2": "Their fears and stigmas about Asians during Covid-19",
+        "choice3": "None of the above",
+        "answer": 2
     },
     {
         "number": 2,
         "question": "What should be challenged?",
-        "choice1": "False information about the pandemic only",
-        "choice2": "Oppressive information about the pandemic only",
-        "choice3": "False and oppressive information coming from public and authority figures ",
-        "choice4": "A and B only",
-        "answer": 3
+        "choice0": "False information about the pandemic only",
+        "choice1": "Oppressive information about the pandemic only",
+        "choice2": "False and oppressive information coming from public and authority figures ",
+        "choice3": "A and B only",
+        "answer": 2
     },
     {
         "number": 3,
         "question": "We should help the community at large understand that each person's health and related fears are the responsibility of this individual or group:",
-        "choice1": "People's followers on social media",
-        "choice2": "The person themselves",
-        "choice3": "The Asian community",
-        "choice4": "All of the above",
-        "answer": 2
+        "choice0": "People's followers on social media",
+        "choice1": "The person themselves",
+        "choice2": "The Asian community",
+        "choice3": "All of the above",
+        "answer": 1
     },
     {
         "number": 4,
         "question": "What's true about anti-Asian racism?",
-        "choice1": "Anti-Asian racism has been exacerbated by covid",
-        "choice2": "Anti-Asian racism only started with covid",
-        "choice3": "Anti-Asian racism can be solved by following 16 specific recommendations",
-        "choice4": "A and C",
-        "answer": 1
+        "choice0": "Anti-Asian racism has been exacerbated by covid",
+        "choice1": "Anti-Asian racism only started with covid",
+        "choice2": "Anti-Asian racism can be solved by following 16 specific recommendations",
+        "choice3": "A and C",
+        "answer": 0
     },
     {
         "number": 5,
         "question": "We should counterbalance the overwhelming amount of information on the negative side of covid with which of the following information?",
-        "choice1": "Positive and proactive information",
-        "choice2": "What individuals can do to protect their safety",
-        "choice3": "What individuals can do to support their loved ones who have contracted covid",
-        "choice4": "All of the above",
-        "answer": 4
+        "choice0": "Positive and proactive information",
+        "choice1": "What individuals can do to protect their safety",
+        "choice2": "What individuals can do to support their loved ones who have contracted covid",
+        "choice3": "All of the above",
+        "answer": 3
     },
     {
         "number": 6,
         "question": "When can we provide support to individuals experiencing anti-Asian racism?",
-        "choice1": "On site during the incident",
-        "choice2": "After the incident",
-        "choice3": "Never",
-        "choice4": "A and B",
-        "answer": 4
+        "choice0": "On site during the incident",
+        "choice1": "After the incident",
+        "choice2": "Never",
+        "choice3": "A and B",
+        "answer": 3
     },
     {
         "number": 7,
         "question": "The immediate and long term impacts of racism for its survivors include which one of these elements?",
-        "choice1": "Practical and mental ",
-        "choice2": "Psychological, interpersonal and spiritual",
-        "choice3": "None of the above",
-        "choice4": "A and B",
-        "answer": 4
+        "choice0": "Practical and mental ",
+        "choice1": "Psychological, interpersonal and spiritual",
+        "choice2": "None of the above",
+        "choice3": "A and B",
+        "answer": 3
     },
     {
         "number": 8,
         "question": "How should perpetrators of racist hate crimes be treated?",
-        "choice1": "Receive unconditional forgiveness ",
-        "choice2": "Be tarred and feathered",
-        "choice3": "Bear legal responsibility for their behaviour",
-        "choice4": "A and C",
-        "answer": 3
+        "choice0": "Receive unconditional forgiveness ",
+        "choice1": "Be tarred and feathered",
+        "choice2": "Bear legal responsibility for their behaviour",
+        "choice3": "A and C",
+        "answer": 2
     },
     {
         "number": 9,
         "question": "What may be helpful for individuals who choose to use faith practices for coping with racism and covid 19 related issues?",
-        "choice1": "Make it illegal ",
-        "choice2": "Respect individual choices",
-        "choice3": "Make everyone engage in a faith practice",
-        "choice4": "Tolerate it as long as they aren't engaging in the wrong faith practices",
-        "answer": 2
+        "choice0": "Make it illegal ",
+        "choice1": "Respect individual choices",
+        "choice2": "Make everyone engage in a faith practice",
+        "choice3": "Tolerate it as long as they aren't engaging in the wrong faith practices",
+        "answer": 1
     },
     {
         "number": 10,
         "question": "What may be helpful for clients experiencing racist treatment?",
-        "choice1": "Empower them with strategies to deal with racist treatment and information on community resources",
-        "choice2": "Empower them with enrollment at a local martial arts gym",
-        "choice3": "Empower them with assurances that it's not as bad as they think it is",
-        "choice4": "Tell them that there is no such thing as racism because ignorance is bliss",
-        "answer": 1
+        "choice0": "Empower them with strategies to deal with racist treatment and information on community resources",
+        "choice1": "Empower them with enrollment at a local martial arts gym",
+        "choice2": "Empower them with assurances that it's not as bad as they think it is",
+        "choice3": "Tell them that there is no such thing as racism because ignorance is bliss",
+        "answer": 0
     },
     {
         "number": 11,
         "question": "What is one of the major groups who are especially at risk of experiencing racism and may need regular check-ins so we can provide support as the need arises?",
-        "choice1": "Anyone with a large social networks",
-        "choice2": "People with limited English or French for accessing community support",
-        "choice3": "Essential service workers",
-        "choice4": "Gen-Z",
-        "answer": 2
+        "choice0": "Anyone with a large social networks",
+        "choice1": "People with limited English or French for accessing community support",
+        "choice2": "Essential service workers",
+        "choice3": "Gen-Z",
+        "answer": 1
     },
     {
         "number": 12,
         "question": "What may be helpful for essential service workers and other service providers in their work helping survivors of anti-Asian racism?",
-        "choice1": "Recognize and support them in their work so they feel valued and can be maximally effective",
-        "choice2": "Ensure mainly Asians to work directly with survivors since they are more likely to understand their clients' struggles",
-        "choice3": "Ensure fewer Asians need to work directly with survivors to prevent triggering traumas",
-        "choice4": "Nothing. It's their job. ",
-        "answer": 1
+        "choice0": "Recognize and support them in their work so they feel valued and can be maximally effective",
+        "choice1": "Ensure mainly Asians to work directly with survivors since they are more likely to understand their clients' struggles",
+        "choice2": "Ensure fewer Asians need to work directly with survivors to prevent triggering traumas",
+        "choice3": "Nothing. It's their job. ",
+        "answer": 0
     },
     {
         "number": 13,
         "question": "Who should work together to serve survivors of anti-Asian racism?",
-        "choice1": "Mainly Asians",
-        "choice2": "Mainly Asians and non-Asian racialized communities",
-        "choice3": "Mainly Asians, non-Asian racialized communities, and racial allies",
-        "choice4": "Mainly Asians, non-Asian racialized communities, racial allies, and the Secretary of Homeland Security",
-        "answer": 3
+        "choice0": "Mainly Asians",
+        "choice1": "Mainly Asians and non-Asian racialized communities",
+        "choice2": "Mainly Asians, non-Asian racialized communities, and racial allies",
+        "choice3": "Mainly Asians, non-Asian racialized communities, racial allies, and the Secretary of Homeland Security",
+        "answer": 2
     },
     {
         "number": 14,
         "question": "Which is the false statement?",
-        "choice1": "Politicians are responsible for addressing racism",
-        "choice2": "We're almost done with this quiz",
-        "choice3": "We should engage in dialogue with politicians about their responsibilities with regards to racism   ",
-        "choice4": "Politicians are responsible for solving racism",
-        "answer": 4
+        "choice0": "Politicians are responsible for addressing racism",
+        "choice1": "We're almost done with this quiz",
+        "choice2": "We should engage in dialogue with politicians about their responsibilities with regards to racism   ",
+        "choice3": "Politicians are responsible for solving racism",
+        "answer": 3
     },
     {
         "number": 15,
         "question": "What shouldn't we do?",
-        "choice1": "Instill hope about the pandemic coming to an end",
-        "choice2": "Instill hope about racism coming to an end",
-        "choice3": "Help people accept the historical and indefinite nature of the pandemic and racism",
-        "choice4": "Help each other accept that today's session is almost done and we'll all have to go home soon",
-        "answer": 3
+        "choice0": "Instill hope about the pandemic coming to an end",
+        "choice1": "Instill hope about racism coming to an end",
+        "choice2": "Help people accept the historical and indefinite nature of the pandemic and racism",
+        "choice3": "Help each other accept that today's session is almost done and we'll all have to go home soon",
+        "answer": 2
     }
 ]

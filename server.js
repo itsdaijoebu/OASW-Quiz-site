@@ -21,12 +21,12 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     .then(client => {
         console.log('connected to db');
         const db = client.db('antiasian_racism');
-        const questions = db.collection('questions');
-        const settings = db.collection('settings');
-        const dbQuestions = questions.find().toArray();
-        const dbSettings = settings.find().toArray();
+        let questions = db.collection('questions');
+        let settings = db.collection('settings');
+        let dbQuestions = questions.find().toArray();
+        let dbSettings = settings.find().toArray();
         let currentQuestion = 1;
-        let maxTime = 30;
+        let maxTime = 5;
 
         app.get('/', function (req, res) {
             console.log('index');
@@ -34,26 +34,21 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         app.get('/quiz', function (req, res) {
             console.log('quiz')
-            db.collection('questions').find().toArray()
-                .then(result => {
-                    res.render('quiz.ejs', { questions: result })
-                })
+            res.render('quiz.ejs', {})
         })
         app.get('/results', function (req, res) {
             res.sendFile('results.ejs')
         })
         app.get('/api/', function (req, res) {
-            // db.collection('antiasian_racism').find().toArray()
-            // .then(result => {
-            //     res.render(result)
-            // })
-            res.render(dbQuestions);
+            db.collection('questions').find().toArray()
+                .then(result => {
+                    res.json(result)
+                })
         })
 
         //timer
         app.get('/countdown', function (req, res) {
-            console.log('countdown')
-            console.log(maxTime)
+            console.log('maxTime:', maxTime)
             res.writeHead(200, {
                 'Content-Type': 'text/event-stream',
                 'Cache-Control': 'no-cache',
@@ -63,10 +58,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         function countdown(res, count) {
             res.write("data: " + count + "\n\n")
-            if (count)
+            if (count) {
                 setTimeout(() => countdown(res, count - 1), 1000)
-            else
+            } else {
                 res.end()
+            }
         }
 
         //reset calls

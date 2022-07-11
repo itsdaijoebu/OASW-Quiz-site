@@ -34,10 +34,13 @@
 .choice-prefix {
     display: flex;
     padding: 0 2.5rem;
+    width: 5rem;
     background-color: var(--main-green);
     color: white;
     margin: 0;
 }
+
+
 
 .choice-text {
     width: 100%;
@@ -53,25 +56,27 @@
 
 .selected {
     /* background: linear-gradient(to right, rgb(185, 193, 218), white); */
-    background: rgb(185, 193, 218);
-    box-shadow: 0 0.4rem 1.4rem 0 v ar(--hover-green);
-    transform: translateY(-0.2rem);
-
+    background: var(--select-blue);
+    box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+    /* transform: translateY(-0.2rem); */
+    border-color: var(--select-blue);
 }
 
-.correct {
+.correct + .choice-prefix {
     /* background: linear-gradient(to right, var(--main-green), white); */
-    background: var(--main-green);
+    background-color: var(--accent-green);
     color: white;
+    transition: 0.5s;
     /* font-weight: bold; */
     /* -webkit-text-stroke-width: 0.7px;
     -webkit-text-stroke-color: black; */
 }
 
-.incorrect {
+.incorrect + .choice-prefix {
     /* background: linear-gradient(to right, #b32084, white); */
-    background: #b32084;
+    background-color: #b32084;
     color: white;
+    transition: 0.5s;
     /* font-weight: bold; */
     /* -webkit-text-stroke-width: 0.7px;
     -webkit-text-stroke-color: black; */
