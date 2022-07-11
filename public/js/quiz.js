@@ -7,6 +7,10 @@ const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
 
+//dev stuff
+const nextQuestionButton = document.querySelector('#nextQ')
+nextQuestionButton.addEventListener('click', nextQuestion)
+
 // selectors for visualizer for responses given by all participants
 const visualizerSection = document.querySelector("#visualizer-section")
 const visualizerTextA = document.querySelector("#visualizer-text-a")
@@ -24,7 +28,7 @@ const maxAnswers = 4;
 let score = 0;
 
 let currentQuestion = 0;
-let selectedAnswer = -1;
+let selectedAnswer = null;
 let acceptingAnswers = false;
 
 //to run on startup
@@ -39,22 +43,23 @@ start();
 
 
 async function start() {
-    timer();
     await getQuestions();
-    nextQuestion();
+    await nextQuestion();
 }
 
 // question and progress functions
 async function getQuestions() {
-    const res = await (fetch(`/api`));
-    const data = await res.json();
-
-    questions = data;
+    const res = await (fetch(`/api/allQuestions`));
+    questions = await res.json();
     maxQuestions = questions.length;
 }
-function nextQuestion() {
+async function nextQuestion() {
+    selectedAnswer = null;
+    const serverQuestion = await (fetch('/api/currentQuestion'));
+    currentQuestion = await serverQuestion.json();
     setQuestion();
     setProgressBar();
+    timer();
 }
 function setQuestion() {
     question.innerText = questions[currentQuestion].question;
@@ -69,7 +74,7 @@ function setProgressBar() {
 
 }
 
-// answers functions
+// answer and score functions
 function answerSelected(e) {
     choices.forEach(choice => {
         choice.parentElement.classList.remove('selected')
@@ -85,27 +90,31 @@ function answerCheck() {
     if (selectedAnswer) {
         if (selectedAnswer.dataset.number == answer)
             incrementScore();
-
-        choices.forEach(e => {
-            classToApply = (e.dataset.number == answer) ? 'correct' : 'incorrect'
-            e.classList.add(classToApply);
-        })
     }
+    choices.forEach(e => {
+        classToApply = (e.dataset.number == answer) ? 'correct' : 'incorrect'
+        e.classList.add(classToApply);
+    })
 }
 function revealAnswers() {
     visualizerSection.classList.remove('invisible');
     answerCheck();
+    putAnswer();
 }
-
 function incrementScore() {
     scoreText.innerText = ++score;
 }
 
+function putAnswer() {
+    fetch('/')
+}
+
 function timer() {
     if (!!window.EventSource) {
-        var source = new EventSource('/countdown')
+        var source = new EventSource('/getCount')
 
         source.addEventListener('message', function (e) {
+            console.log(e)
             document.querySelector('#timer-text').innerHTML = e.data
         }, false)
 
