@@ -1,15 +1,19 @@
 const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
 const choiceContainers = Array.from(document.querySelectorAll(`.choice-container`));
-const scoreText = document.getElementById('score-text');
 const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('progress-bar')
 const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text')
 
-//dev stuff
-const nextQuestionButton = document.querySelector('#nextQ')
-nextQuestionButton.addEventListener('click', nextQuestion)
+//host stuff
+const nextQuestionButton = document.getElementById('host-next')
+nextQuestionButton.addEventListener('click', hostNextQuestion)
+const resetButton = document.getElementById('host-reset')
+resetButton.addEventListener('click', resetQuiz)
+const startButton = document.getElementById('host-start')
+startButton.addEventListener('click', startQuiz)
+
 
 // selectors for visualizer for responses given by all participants
 const visualizerSection = document.querySelector("#visualizer-section")
@@ -44,7 +48,21 @@ start();
 
 async function start() {
     await getQuestions();
-    await nextQuestion();
+    const serverQuestion = await (fetch('/api/currentQuestion'));
+    currentQuestion = await serverQuestion.json();
+    hostSetQuestion();
+    setProgressBar();
+    timer();
+}
+
+async function startQuiz() {
+    await fetch('/host/start');
+    timer();
+}
+
+async function resetQuiz() {
+    fetch('/host/reset');
+    start();
 }
 
 // question and progress functions
@@ -53,32 +71,31 @@ async function getQuestions() {
     questions = await res.json();
     maxQuestions = questions.length;
 }
-async function nextQuestion() {
-    selectedAnswer = null;
-    const serverQuestion = await (fetch('/api/currentQuestion'));
-    currentQuestion = await serverQuestion.json();
-    setQuestion();
+async function hostNextQuestion() {
+    const nextQuestion = await (fetch('/host/goNextQuestion'));
+    currentQuestion = await nextQuestion.json();
+    hostSetQuestion();
     setProgressBar();
     timer();
 }
-function setQuestion() {
+function hostSetQuestion() {
     choices.forEach(choice => {
-        choice.classList.remove('correct')
-        choice.classList.remove('incorrect')
+        choice.classList.remove('correct');
+        choice.classList.remove('incorrect');
     })
     question.innerText = questions[currentQuestion].question;
     for (let i = 0; i < maxAnswers; i++) {
         choices[i].innerText = questions[currentQuestion]['choice' + i]
     }
-    acceptingAnswers = true;
+    answerCheck();
 }
 function setProgressBar() {
-    progressText.innerText = `Question: ${currentQuestion + 1}/${maxQuestions}`
+    progressText.innerText = `Question: ${currentQuestion+1} / ${maxQuestions}`
     progressBarFull.style.width = `${(currentQuestion + 1) / maxQuestions * 100}%`;
 
 }
 
-// answer and score functions
+// answer functions
 function answerSelected(e) {
     choices.forEach(choice => {
         choice.parentElement.classList.remove('selected')
@@ -91,26 +108,10 @@ function answerCheck() {
     const answer = questions[currentQuestion].answer;
     let classToApply = ''
 
-    if (selectedAnswer) {
-        if (selectedAnswer.dataset.number == answer)
-            incrementScore();
-    }
-    choices.forEach(choice => {
-        classToApply = (choice.dataset.number == answer) ? 'correct' : 'incorrect'
-        choice.classList.add(classToApply);
+    choices.forEach(e => {
+        classToApply = (e.dataset.number == answer) ? 'correct' : 'incorrect'
+        e.classList.add(classToApply);
     })
-}
-function revealAnswers() {
-    visualizerSection.classList.remove('invisible');
-    answerCheck();
-    putAnswer();
-}
-function incrementScore() {
-    scoreText.innerText = ++score;
-}
-
-function putAnswer() {
-    // fetch('/')
 }
 
 function timer() {
@@ -131,10 +132,9 @@ function timer() {
 
             if (e.eventPhase == EventSource.CLOSED)
                 source.close()
-            if (e.target.readyState == EventSource.CLOSED) {
+            // if (e.target.readyState == EventSource.CLOSED) {
                 // id_state.innerHTML = "Disconnected"
-                revealAnswers();
-            }
+            // }
             // else if (e.target.readyState == EventSource.CONNECTING) {
                 // id_state.innerHTML = "Connecting..."
             // }
@@ -143,3 +143,4 @@ function timer() {
         console.log("Your browser doesn't support SSE")
     }
 }
+

@@ -52,6 +52,23 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             res.json(currentQuestion);
         })
 
+        app.get('/host', function (req, res) {
+            res.render('hostControls.ejs', {})
+        })
+        app.get('/host/goNextQuestion', function (req, res) {
+            countdown(res, maxTime);
+            // currentQuestion++;
+            res.json(++currentQuestion);
+        })
+        app.get('/host/reset', function (req, res) {
+            currentQuestion = 0;
+            res.json(currentQuestion);
+        })
+        app.get('/host/start', function (req, res) {
+            countdown(res, maxTime);
+            res.json(currentQuestion)
+        })
+
         //timer
         app.get('/getCount', function (req, res) {
             res.writeHead(200, {
@@ -62,7 +79,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             getCount(res)
         })
         app.get('/countdown', function (req, res) {
-            countdown(res, maxTime)
+            countdown(res, maxTime);
         })
 
 
@@ -100,6 +117,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         let currentCount = 0;
         function countdown(res, count) {
             currentCount = count;
+            console.log(currentCount);
             if (count) {
                 setTimeout(() => countdown(res, count - 1), 1000)
             } 

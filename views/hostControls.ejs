@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anti-Asian Racism Survey Quiz</title>
+    <title>Host Controls</title>
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
@@ -17,27 +17,17 @@
 
 <body>
 
-    <!-- <div class="loader" id="loader"></div> -->
-
-    <!-- <div class="container invisible" id="main-section"> -->
     <div class="container" id="main-section">
         <section id="game" class="justify-center flex-column">
             <img src="images/oasw-logo-horizontal-English.png" alt="OASW Logo" class="game-logo">
 
             <section class="hud" id="hud">
-                <!-- <section class="hud-item" id="hud-question">
-                    <p id="progress-text" class="hud-prefix"></p>
-                    <section id="progress-bar">
-                        <div id="progress-bar-full"></div>
-                    </section>
-                </section> -->
                 <section class="hud-item" id="timer">
                     <p class="hud-prefix">Timer</p>
-                    <!-- <h1 class="timer-text" id="timer-text">10</h1> -->
                     <h1 class="timer-text" id="timer-text"></h1>
                 </section>
 
-                <section class="hud-item visualizer-section invisible" id="visualizer-section">
+                <section class="hud-item visualizer-section" id="visualizer-section">
                     <div class="vis-container">
                         <span class="vis-label">A</span>
                         <section id="visualizer-a" class="visualizer">
@@ -71,31 +61,31 @@
                     </div>
                 </section>
 
-                <section class="hud-item" id="hud-score">
-                    <p class="hud-prefix">Score</p>
-                    <h1 class="hud-main-text" id="score-text">0</h1>
+                <section class="span-btn-container">
+                    <span class="btn host-start" id="host-start">Start</span>
                 </section>
             </section>
 
             <h2 id="question">Test question?</h2>
+
             <form name="question-choices">
                 <div class="choice-container">
-                    <input id="choice0" class ="choice-radio" type="radio" name="choice" value="A">
+                    <input id="choice0" class="choice-radio" type="radio" name="choice" value="A">
                     <label for="choice0" class="choice-text" data-number="0"></label>
                     <label for="choice0" class="choice-prefix flex-center">A</label>
                 </div>
                 <div class="choice-container">
-                    <input id="choice1"  class ="choice-radio" type="radio" name="choice" value="B">
+                    <input id="choice1" class="choice-radio" type="radio" name="choice" value="B">
                     <label for="choice1" class="choice-text" data-number="1"></label>
                     <label for="choice1" class="choice-prefix flex-center">B</label>
                 </div>
                 <div class="choice-container">
-                    <input id="choice2"  class ="choice-radio" type="radio" name="choice" value="C">
+                    <input id="choice2" class="choice-radio" type="radio" name="choice" value="C">
                     <label for="choice2" class="choice-text" data-number="2"></label>
                     <label for="choice2" class="choice-prefix flex-center">C</label>
                 </div>
                 <div class="choice-container">
-                    <input id="choice3"  class ="choice-radio" type="radio" name="choice" value="D">
+                    <input id="choice3" class="choice-radio" type="radio" name="choice" value="D">
                     <label for="choice3" class="choice-text" data-number="3"></label>
                     <label for="choice3" class="choice-prefix flex-center">D</label>
                 </div>
@@ -103,10 +93,14 @@
                 <input id="question-for-google" class="invisible" type="radio" name="question" value="0" selected>
             </form>
 
-            <button id="nextQ">NEXT!</button>
+            <!-- <button id="nextQ">NEXT!</button> -->
 
             <section class="hud-item" id="hud-question">
-                <p id="progress-text" class="hud-prefix"></p>
+                <section class="hud-prefix">
+                    <span class="btn host-nav" id="host-reset">Reset</span>
+                    <span id="progress-text"></span>
+                    <span class="btn host-nav" id="host-next">Next</span>
+                </section>
                 <section id="progress-bar">
                     <div id="progress-bar-full"></div>
                 </section>
@@ -116,7 +110,7 @@
 
     <p id="output"></p>
 
-    <script src="js/quiz.js"></script>
+    <script src="js/hostControls.js"></script>
 </body>
 
 </html>

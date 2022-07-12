@@ -4,6 +4,8 @@
      --accent-green: #008767;
      --hover-green: rgba(1, 148, 114, 0.5);
      --select-blue: #b9c1da;
+     --background-color: white;
+     /* --background-color: #f5ffff; */
 
      /* Other root properties */
      font-size: 62.5%;
@@ -35,6 +37,9 @@
 /******************************************
 /* BASE STYLES
 /*******************************************/
+html {
+     background-color: var(--background-color);
+}
 
 body {
      font-size: 1.6rem;
@@ -121,22 +126,28 @@ nav, nav *{
      text-decoration: none;
      border: 0.1rem solid var(--accent-green);
      color: var(--main-green);
-}
-
-.btn.start {
      background-color: var(--main-green);
      color: white;
+     border-radius: 3px;
 }
-
 .btn:hover {
      cursor: pointer;
      box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
 }
-
 .btn[disabled]:hover{
      cursor: not-allowed;
      box-shadow: none;
      transform: none;
+}
+.btn.host-nav {
+     width: 10rem;
+     padding: 0 2rem;
+     margin: 0 2rem; 
+}
+.btn.host-start {
+     position: relative;
+     top: 4rem;
+     padding: 2.5rem;
 }
 
 

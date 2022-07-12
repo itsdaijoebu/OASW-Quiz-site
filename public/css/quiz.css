@@ -10,24 +10,30 @@
     margin-bottom: 0.5rem;
     width: 100%;
     font-size: 1.8rem;
-    border: 0.1rem solid var(--accent-green);
-    background-color: white;
+    border: 0.4rem solid #bfcbc9;
+    background-color: var(--background-color);
     align-items: stretch;
     flex-direction: row-reverse;
 }
+.choice-container:last-of-type {
+    margin-bottom: 0;
+}
+
 .choice-container:hover {
     cursor: pointer;
     box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
     transform: translateY(-0.1rem);
     transition: transform 150ms;
 }
-.inactive + .choice-prefix {
-    background-color:  #961b6f;
+
+.inactive+.choice-prefix {
+    background-color: #961b6f;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
-.correctTag + .choice-prefix {
+
+.correctTag+.choice-prefix {
     background-color: var(--accent-green);
 }
 
@@ -37,10 +43,7 @@
     width: 5rem;
     background-color: var(--main-green);
     color: white;
-    margin: 0;
 }
-
-
 
 .choice-text {
     width: 100%;
@@ -62,7 +65,7 @@
     border-color: var(--select-blue);
 }
 
-.correct + .choice-prefix {
+.correct+.choice-prefix {
     /* background: linear-gradient(to right, var(--main-green), white); */
     background-color: var(--accent-green);
     color: white;
@@ -72,7 +75,7 @@
     -webkit-text-stroke-color: black; */
 }
 
-.incorrect + .choice-prefix {
+.incorrect+.choice-prefix {
     /* background: linear-gradient(to right, #b32084, white); */
     background-color: #b32084;
     color: white;
@@ -93,32 +96,32 @@
 .hud-prefix {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-#progress-text {
-    margin-top: 1.5rem;
+    margin: 1rem 0;
+    /* display: flex; */
+    /* justify-content: center; */
 }
 
 #progress-bar {
     width: 100%;
     height: 4rem;
-    border: 0.3rem solid var(--main-green);
+    border: 0.35rem solid var(--main-green);
+    position: relative;
 }
 
 #progress-bar-full {
-    height: 3.4rem;
+    height: 3.5rem;
     background-color: var(--main-green);
     width: 0%;
+    position: absolute;
 }
 
 .visualizer-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: column;
-    /* border: 0.5rem solid var(--main-green); */
     width: 70%;
     height: 100%;
+    margin-top: 1rem;
 }
 
 .visualizer {
@@ -126,6 +129,7 @@
     height: 1rem;
     /* border: 0.3rem solid var(--accent-green); */
 }
+
 /* .visualizer:first-of-type{
     margin-top: 2%;
 }
@@ -140,12 +144,14 @@
     margin: 0.25% 0;
     padding: 0;
 }
-.vis-label{
+
+.vis-label {
     margin-right: 1%;
     font-size: 1.6rem;
     margin: 0;
     padding: 0;
 }
+
 .visualizer-full {
     /* background: linear-gradient(to right, var(--main-green), white); */
     background-color: var(--accent-green);
@@ -153,35 +159,45 @@
     margin-left: 2%;
     padding: 0;
 }
+
 /* #visualizer-text-a, #visualizer-text-b, #visualizer-text-c, #visualizer-text-d {
     align-self: flex-end;
     justify-self: flex-end;
 } */
-.visualizer-text{
+.visualizer-text {
     margin-left: 1rem;
 }
 
-/* THINGS THAT MAKE GOOGLE SUBMIT WORK */
+/* Things for submitting form*/
 #submit-button {
     visibility: hidden;
 }
-input {
+
+input[type=radio] {
     cursor: help;
     display: none;
     z-index: -1;
 }
 
+
 /*LOADER*/
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
     border-radius: 50%;
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
