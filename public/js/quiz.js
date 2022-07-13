@@ -1,3 +1,5 @@
+const socket = io();
+
 const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
 const choiceContainers = Array.from(document.querySelectorAll(`.choice-container`));
@@ -41,7 +43,6 @@ choiceContainers.forEach(container => {
 })
 start();
 
-
 async function start() {
     await getQuestions();
     await nextQuestion();
@@ -59,7 +60,6 @@ async function nextQuestion() {
     currentQuestion = await serverQuestion.json();
     setQuestion();
     setProgressBar();
-    timer();
 }
 function setQuestion() {
     choices.forEach(choice => {
@@ -86,7 +86,8 @@ function answerSelected(e) {
     selectedAnswer = e;
     selectedAnswer.parentElement.classList.add('selected')
 }
-function answerCheck() {
+function revealAnswers() {
+    visualizerSection.classList.remove('invisible');
     acceptingAnswers = false;
     const answer = questions[currentQuestion].answer;
     let classToApply = ''
@@ -100,10 +101,7 @@ function answerCheck() {
         choice.classList.add(classToApply);
     })
 }
-function revealAnswers() {
-    visualizerSection.classList.remove('invisible');
-    answerCheck();
-}
+
 function submitAnswers() {
     console.log('submit!')
 }
@@ -111,33 +109,19 @@ function incrementScore() {
     scoreText.innerText = ++score;
 }
 
-function timer() {
-    if (!!window.EventSource) {
-        var source = new EventSource('/getCount')
+// websocket stuff
+socket.on('message', message => {
+    console.log(message);
+})
 
-        source.addEventListener('message', function (e) {
-            document.querySelector('#timer-text').innerHTML = e.data
-        }, false)
-
-        // source.addEventListener('open', function (e) {
-            // document.querySelector('#state').innerHTML = "Connected"
-        // }, false)
-        // source.addEventListener('close')
-
-        source.addEventListener('error', function (e) {
-            // const id_state = document.querySelector('#state')
-
-            if (e.eventPhase == EventSource.CLOSED)
-                source.close()
-            if (e.target.readyState == EventSource.CLOSED) {
-                revealAnswers();
-                submitAnswers();
-            }
-            // else if (e.target.readyState == EventSource.CONNECTING) {
-                // id_state.innerHTML = "Connecting..."
-            // }
-        }, false)
-    } else {
-        console.log("Your browser doesn't support SSE")
+socket.on('currentCount', count => {
+    if(acceptingAnswers)
+        updateCount(count)
+})
+function updateCount(count) {
+    timerText.innerText = count;
+    if(count === 0) {
+        console.log('reveal!')
+        revealAnswers();
     }
 }

@@ -1,20 +1,27 @@
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
+
+const http = require("http")
 const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
+
 const mongodb = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
-require('dotenv').config();
 
-const app = express();
-const PORT = 3000;
+const server = http.createServer(app);
+const socketio = require("socket.io")
+const io = socketio(server);
 
 app.set('view engine', 'ejs');
 
-//middleware
+// //middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-//environmental vars
+
+// //environmental vars
 let connectionString = process.env.MONGO_URI;
 
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
@@ -104,12 +111,19 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             res.json(maxTime);
         })
 
+        // websocket stuff
+        io.on('connect', socket => {
+            console.log(`new connection : ${socket.id}`)
+            socket.emit('message', `Welcome to the quiz, ${socket.id}`)
+            socket.on('startCountdown', () => countdown(maxTime))
+        })
+
         //helper functions
         function getMaxQuestions() {
             dbQuestions
-            .then((result) => {
-                maxQuestions = result.length;
-            })
+                .then((result) => {
+                    maxQuestions = result.length;
+                })
         }
         function getMaxTime() {
             dbSettings
@@ -117,29 +131,21 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                     maxTime = result[0].time;
                 })
         }
-
-        let currentCount = 0;
-        function countdown(res, count) {
-            isCounting = true;
-            currentCount = count;
-            console.log(currentCount);
-            if (count) {
-                setTimeout(() => countdown(res, count - 1), 1000)
-            } else {
-                isCounting = false;
+        let currentCount = 5;
+        setInterval(() => io.emit('currentCount', currentCount), 500)
+        function countdown(count) {
+                isCounting = true;
+                currentCount = count;
+                console.log(currentCount);
+                if (count) {
+                    setTimeout(() => countdown(count - 1), 1000)
+                } else {
+                    isCounting = false;
+                }
             }
-        }
-        function getCount(res) {
-            res.write("data: " + currentCount + "\n\n");
-            if(currentCount) {
-                setTimeout(() => getCount(res), 500)
-            } else {
-                res.end();
-            }
-        }
     })
     .catch(error => console.error(error));
 
-app.listen(process.env.PORT || PORT, function () {
+server.listen(PORT, function () {
     console.log(`listening on ${PORT}`);
 })

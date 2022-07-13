@@ -1,3 +1,5 @@
+const socket = io();
+
 const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
 const choiceContainers = Array.from(document.querySelectorAll(`.choice-container`));
@@ -52,12 +54,10 @@ async function start() {
     currentQuestion = await serverQuestion.json();
     hostSetQuestion();
     setProgressBar();
-    timer();
 }
 
-async function startQuiz() {
-    await fetch('/host/start');
-    timer();
+function startQuiz() {
+    socket.emit('startCountdown')
 }
 
 async function resetQuiz() {
@@ -76,7 +76,7 @@ async function hostNextQuestion() {
     currentQuestion = await nextQuestion.json();
     hostSetQuestion();
     setProgressBar();
-    timer();
+    // timer();
 }
 function hostSetQuestion() {
     choices.forEach(choice => {
@@ -90,7 +90,7 @@ function hostSetQuestion() {
     answerCheck();
 }
 function setProgressBar() {
-    progressText.innerText = `Question: ${currentQuestion+1} / ${maxQuestions}`
+    progressText.innerText = `Question: ${currentQuestion + 1} / ${maxQuestions}`
     progressBarFull.style.width = `${(currentQuestion + 1) / maxQuestions * 100}%`;
 
 }
@@ -114,33 +114,42 @@ function answerCheck() {
     })
 }
 
-function timer() {
-    if (!!window.EventSource) {
-        var source = new EventSource('/getCount')
-
-        source.addEventListener('message', function (e) {
-            document.querySelector('#timer-text').innerHTML = e.data
-        }, false)
-
-        // source.addEventListener('open', function (e) {
-            // document.querySelector('#state').innerHTML = "Connected"
-        // }, false)
-        // source.addEventListener('close')
-
-        source.addEventListener('error', function (e) {
-            // const id_state = document.querySelector('#state')
-
-            if (e.eventPhase == EventSource.CLOSED)
-                source.close()
-            // if (e.target.readyState == EventSource.CLOSED) {
-                // id_state.innerHTML = "Disconnected"
-            // }
-            // else if (e.target.readyState == EventSource.CONNECTING) {
-                // id_state.innerHTML = "Connecting..."
-            // }
-        }, false)
-    } else {
-        console.log("Your browser doesn't support SSE")
-    }
+// web sockets
+socket.on('currentCount', count => updateCount(count))
+function updateCount(count) {
+    timerText.innerText = count;
 }
+
+
+
+// using SSE
+// function timer() {
+//     if (!!window.EventSource) {
+//         var source = new EventSource('/getCount')
+
+//         source.addEventListener('message', function (e) {
+//             document.querySelector('#timer-text').innerHTML = e.data
+//         }, false)
+
+//         // source.addEventListener('open', function (e) {
+//             // document.querySelector('#state').innerHTML = "Connected"
+//         // }, false)
+//         // source.addEventListener('close')
+
+//         source.addEventListener('error', function (e) {
+//             // const id_state = document.querySelector('#state')
+
+//             if (e.eventPhase == EventSource.CLOSED)
+//                 source.close()
+//             // if (e.target.readyState == EventSource.CLOSED) {
+//                 // id_state.innerHTML = "Disconnected"
+//             // }
+//             // else if (e.target.readyState == EventSource.CONNECTING) {
+//                 // id_state.innerHTML = "Connecting..."
+//             // }
+//         }, false)
+//     } else {
+//         console.log("Your browser doesn't support SSE")
+//     }
+// }
 
