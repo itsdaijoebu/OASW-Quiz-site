@@ -103,14 +103,12 @@ function answerCheck() {
 function revealAnswers() {
     visualizerSection.classList.remove('invisible');
     answerCheck();
-    putAnswer();
+}
+function submitAnswers() {
+    console.log('submit!')
 }
 function incrementScore() {
     scoreText.innerText = ++score;
-}
-
-function putAnswer() {
-    // fetch('/')
 }
 
 function timer() {
@@ -127,13 +125,13 @@ function timer() {
         // source.addEventListener('close')
 
         source.addEventListener('error', function (e) {
-            const id_state = document.querySelector('#state')
+            // const id_state = document.querySelector('#state')
 
             if (e.eventPhase == EventSource.CLOSED)
                 source.close()
             if (e.target.readyState == EventSource.CLOSED) {
-                // id_state.innerHTML = "Disconnected"
                 revealAnswers();
+                submitAnswers();
             }
             // else if (e.target.readyState == EventSource.CONNECTING) {
                 // id_state.innerHTML = "Connecting..."

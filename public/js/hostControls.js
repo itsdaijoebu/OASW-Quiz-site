@@ -128,7 +128,7 @@ function timer() {
         // source.addEventListener('close')
 
         source.addEventListener('error', function (e) {
-            const id_state = document.querySelector('#state')
+            // const id_state = document.querySelector('#state')
 
             if (e.eventPhase == EventSource.CLOSED)
                 source.close()

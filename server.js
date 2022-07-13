@@ -70,6 +70,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
 
         //timer
+        let isCounting = false;
         app.get('/getCount', function (req, res) {
             res.writeHead(200, {
                 'Content-Type': 'text/event-stream',
@@ -80,6 +81,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         app.get('/countdown', function (req, res) {
             countdown(res, maxTime);
+        })
+        app.get('/api/isCounting', function (req, res) {
+            res.json(isCounting)
         })
 
 
@@ -116,11 +120,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
         let currentCount = 0;
         function countdown(res, count) {
+            isCounting = true;
             currentCount = count;
             console.log(currentCount);
             if (count) {
                 setTimeout(() => countdown(res, count - 1), 1000)
-            } 
+            } else {
+                isCounting = false;
+            }
         }
         function getCount(res) {
             res.write("data: " + currentCount + "\n\n");
