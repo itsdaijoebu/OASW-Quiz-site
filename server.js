@@ -10,7 +10,8 @@ const mongodb = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
 
 const server = http.createServer(app);
-const socketio = require("socket.io")
+const socketio = require("socket.io");
+const { reset } = require('nodemon');
 const io = socketio(server);
 
 app.set('view engine', 'ejs');
@@ -62,36 +63,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         app.get('/host', function (req, res) {
             res.render('hostControls.ejs', {})
         })
-        app.get('/host/goNextQuestion', function (req, res) {
-            countdown(res, maxTime);
-            // currentQuestion++;
-            res.json(++currentQuestion);
-        })
-        app.get('/host/reset', function (req, res) {
-            currentQuestion = 0;
-            res.json(currentQuestion);
-        })
-        app.get('/host/start', function (req, res) {
-            countdown(res, maxTime);
-            res.json(currentQuestion)
-        })
-
-        //timer
-        let isCounting = false;
-        app.get('/getCount', function (req, res) {
-            res.writeHead(200, {
-                'Content-Type': 'text/event-stream',
-                'Cache-Control': 'no-cache',
-                'Connection': 'keep-alive'
-            })
-            getCount(res)
-        })
-        app.get('/countdown', function (req, res) {
-            countdown(res, maxTime);
-        })
-        app.get('/api/isCounting', function (req, res) {
-            res.json(isCounting)
-        })
 
 
         //reset calls
@@ -115,7 +86,13 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         io.on('connect', socket => {
             console.log(`new connection : ${socket.id}`)
             socket.emit('message', `Welcome to the quiz, ${socket.id}`)
-            socket.on('startCountdown', () => countdown(maxTime))
+            socket.on('startCountdown', () => {
+                stopCountdown();
+                countdown(maxTime);
+            })
+            socket.on('goNextQuestion', () => goNextQuestion())
+            socket.on('goPrevQuestion', () => goPrevQuestion())
+            socket.on('resetQuiz', () => resetQuiz())
         })
 
         //helper functions
@@ -131,18 +108,38 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                     maxTime = result[0].time;
                 })
         }
+        function goNextQuestion() {
+            console.log('next question');
+            io.emit('setQuestion', ++currentQuestion);
+            stopCountdown();
+            countdown(maxTime);
+        }
+        function goPrevQuestion() {
+            console.log('previous question');
+            io.emit('setQuestion', --currentQuestion);
+            stopCountdown();
+            countdown(maxTime);
+        }
+        function resetQuiz() {
+            currentQuestion = 0;
+            io.emit('setQuestion', currentQuestion, true);
+            stopCountdown();
+            currentCount = maxTime;
+        }
+
         let currentCount = 5;
+        let timer;
         setInterval(() => io.emit('currentCount', currentCount), 500)
         function countdown(count) {
-                isCounting = true;
-                currentCount = count;
-                console.log(currentCount);
-                if (count) {
-                    setTimeout(() => countdown(count - 1), 1000)
-                } else {
-                    isCounting = false;
-                }
+            currentCount = count;
+            console.log(currentCount);
+            if (count) {
+                timer = setTimeout(() => countdown(count - 1), 1000)
             }
+        }
+        function stopCountdown() {
+            clearTimeout(timer);
+        }
     })
     .catch(error => console.error(error));
 

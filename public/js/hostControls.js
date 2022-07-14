@@ -4,29 +4,32 @@ const question = document.getElementById(`question`);
 const choices = Array.from(document.getElementsByClassName(`choice-text`));
 const choiceContainers = Array.from(document.querySelectorAll(`.choice-container`));
 const progressText = document.getElementById('progress-text');
-const progressBar = document.getElementById('progress-bar')
+const progressBar = document.getElementById('progress-bar');
 const progressBarFull = document.getElementById('progress-bar-full');
-const timerText = document.getElementById('timer-text')
+const timerText = document.getElementById('timer-text');
 
 //host stuff
-const nextQuestionButton = document.getElementById('host-next')
-nextQuestionButton.addEventListener('click', hostNextQuestion)
-const resetButton = document.getElementById('host-reset')
-resetButton.addEventListener('click', resetQuiz)
-const startButton = document.getElementById('host-start')
-startButton.addEventListener('click', startQuiz)
+const nextQuestionButton = document.getElementById('host-next');
+nextQuestionButton.addEventListener('click', () => socket.emit('goNextQuestion'));
+const prevQuestionButton = document.getElementById('host-previous');
+prevQuestionButton.addEventListener('click', () => socket.emit('goPrevQuestion'));
+
+const resetButton = document.getElementById('host-reset');
+resetButton.addEventListener('click', resetQuiz);
+const startButton = document.getElementById('host-start');
+startButton.addEventListener('click', startQuiz);
 
 
 // selectors for visualizer for responses given by all participants
-const visualizerSection = document.querySelector("#visualizer-section")
-const visualizerTextA = document.querySelector("#visualizer-text-a")
-const visualizerTextB = document.querySelector("#visualizer-text-b")
-const visualizerTextC = document.querySelector("#visualizer-text-c")
-const visualizerTextD = document.querySelector("#visualizer-text-d")
-const visualizerFullA = document.querySelector("#visualizer-a-full")
-const visualizerFullB = document.querySelector("#visualizer-b-full")
-const visualizerFullC = document.querySelector("#visualizer-c-full")
-const visualizerFullD = document.querySelector("#visualizer-d-full")
+const visualizerSection = document.querySelector("#visualizer-section");
+const visualizerTextA = document.querySelector("#visualizer-text-a");
+const visualizerTextB = document.querySelector("#visualizer-text-b");
+const visualizerTextC = document.querySelector("#visualizer-text-c");
+const visualizerTextD = document.querySelector("#visualizer-text-d");
+const visualizerFullA = document.querySelector("#visualizer-a-full");
+const visualizerFullB = document.querySelector("#visualizer-b-full");
+const visualizerFullC = document.querySelector("#visualizer-c-full");
+const visualizerFullD = document.querySelector("#visualizer-d-full");
 
 let questions = []
 let maxQuestions = 0;
@@ -61,7 +64,7 @@ function startQuiz() {
 }
 
 async function resetQuiz() {
-    fetch('/host/reset');
+    socket.emit('resetQuiz')
     start();
 }
 
@@ -71,12 +74,9 @@ async function getQuestions() {
     questions = await res.json();
     maxQuestions = questions.length;
 }
-async function hostNextQuestion() {
-    const nextQuestion = await (fetch('/host/goNextQuestion'));
-    currentQuestion = await nextQuestion.json();
+function hostNextQuestion() {
     hostSetQuestion();
     setProgressBar();
-    // timer();
 }
 function hostSetQuestion() {
     choices.forEach(choice => {
@@ -119,37 +119,9 @@ socket.on('currentCount', count => updateCount(count))
 function updateCount(count) {
     timerText.innerText = count;
 }
+socket.on('setQuestion', question => {
+    currentQuestion = question;
+    console.log(question)
 
-
-
-// using SSE
-// function timer() {
-//     if (!!window.EventSource) {
-//         var source = new EventSource('/getCount')
-
-//         source.addEventListener('message', function (e) {
-//             document.querySelector('#timer-text').innerHTML = e.data
-//         }, false)
-
-//         // source.addEventListener('open', function (e) {
-//             // document.querySelector('#state').innerHTML = "Connected"
-//         // }, false)
-//         // source.addEventListener('close')
-
-//         source.addEventListener('error', function (e) {
-//             // const id_state = document.querySelector('#state')
-
-//             if (e.eventPhase == EventSource.CLOSED)
-//                 source.close()
-//             // if (e.target.readyState == EventSource.CLOSED) {
-//                 // id_state.innerHTML = "Disconnected"
-//             // }
-//             // else if (e.target.readyState == EventSource.CONNECTING) {
-//                 // id_state.innerHTML = "Connecting..."
-//             // }
-//         }, false)
-//     } else {
-//         console.log("Your browser doesn't support SSE")
-//     }
-// }
-
+    hostNextQuestion();
+})

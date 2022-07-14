@@ -11,7 +11,6 @@ const timerText = document.getElementById('timer-text')
 
 //dev stuff
 const nextQuestionButton = document.querySelector('#nextQ')
-nextQuestionButton.addEventListener('click', nextQuestion)
 
 // selectors for visualizer for responses given by all participants
 const visualizerSection = document.querySelector("#visualizer-section")
@@ -56,13 +55,12 @@ async function getQuestions() {
 }
 async function nextQuestion() {
     selectedAnswer = null;
-    const serverQuestion = await (fetch('/api/currentQuestion'));
-    currentQuestion = await serverQuestion.json();
     setQuestion();
     setProgressBar();
 }
 function setQuestion() {
     choices.forEach(choice => {
+        choice.parentElement.classList.remove('selected')
         choice.classList.remove('correct')
         choice.classList.remove('incorrect')
     })
@@ -115,13 +113,23 @@ socket.on('message', message => {
 })
 
 socket.on('currentCount', count => {
-    if(acceptingAnswers)
+    if (acceptingAnswers)
         updateCount(count)
 })
 function updateCount(count) {
     timerText.innerText = count;
-    if(count === 0) {
+    if (count === 0) {
         console.log('reveal!')
         revealAnswers();
     }
 }
+
+socket.on('setQuestion', (question, reset = false) => {
+    if (reset) {
+        score = 0;
+        scoreText.innerText = score;
+    }
+    visualizerSection.classList.add('invisible');
+    currentQuestion = question;
+    nextQuestion();
+})
