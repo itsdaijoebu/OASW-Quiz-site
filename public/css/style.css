@@ -139,6 +139,10 @@ nav, nav *{
      box-shadow: none;
      transform: none;
 }
+.btn.start {
+     padding: 1rem 0; 
+     width: 20rem;
+}
 .btn.host-nav {
      width: 10rem;
      padding: 0 2rem;

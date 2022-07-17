@@ -99,10 +99,10 @@ function revealAnswers() {
         choice.classList.add(classToApply);
     })
 }
-
 function submitAnswers() {
-    console.log('submit!')
+    socket.emit('submitAnswer', selectedAnswer.dataset.number)
 }
+
 function incrementScore() {
     scoreText.innerText = ++score;
 }
@@ -121,6 +121,8 @@ function updateCount(count) {
     if (count === 0) {
         console.log('reveal!')
         revealAnswers();
+        submitAnswers();
+
     }
 }
 

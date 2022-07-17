@@ -114,7 +114,7 @@ function answerCheck() {
     })
 }
 
-// web sockets
+// socket.io
 socket.on('currentCount', count => updateCount(count))
 function updateCount(count) {
     timerText.innerText = count;

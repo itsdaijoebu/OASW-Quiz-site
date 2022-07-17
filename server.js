@@ -11,7 +11,6 @@ const MongoClient = require('mongodb').MongoClient;
 
 const server = http.createServer(app);
 const socketio = require("socket.io");
-const { reset } = require('nodemon');
 const io = socketio(server);
 
 app.set('view engine', 'ejs');
@@ -30,8 +29,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         console.log('connected to db');
         const db = client.db('antiasian_racism');
         let questions = db.collection('questions');
+        let answers = db.collection('answers');
         let settings = db.collection('settings');
-        let dbQuestions = questions.find().toArray();
+        let dbQuestions = questions.find().sort({ number: 1 }).toArray();
         let dbSettings = settings.find().toArray();
         let currentQuestion = 0;
         let maxQuestions = 0;
@@ -90,6 +90,9 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                 stopCountdown();
                 countdown(maxTime);
             })
+
+            socket.on('submitAnswer', answer => submitAnswers(answer))
+            //host functions
             socket.on('goNextQuestion', () => goNextQuestion())
             socket.on('goPrevQuestion', () => goPrevQuestion())
             socket.on('resetQuiz', () => resetQuiz())
@@ -108,6 +111,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                     maxTime = result[0].time;
                 })
         }
+
         function goNextQuestion() {
             console.log('next question');
             io.emit('setQuestion', ++currentQuestion);
@@ -118,19 +122,41 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             console.log('previous question');
             io.emit('setQuestion', --currentQuestion);
             stopCountdown();
-            countdown(maxTime);
+            currentCount = maxTime;
+            // countdown(maxTime);
         }
+
+
+        //host functions
         function resetQuiz() {
             currentQuestion = 0;
             io.emit('setQuestion', currentQuestion, true);
             stopCountdown();
             currentCount = maxTime;
+            createAnswerInDb(currentQuestion);
+        }
+        function submitAnswers(answer) {
+            console.log("answer", answer);
+            answers.updateOne(
+                { question: currentQuestion },
+                { $inc: { [answer]: 1 } }
+            )
+        }
+        function createAnswerInDb(questionNum) {
+            answers.replaceOne(
+                { question: questionNum },
+                { question: currentQuestion, 0: 0, 1: 0, 2: 0, 3: 0 },
+                { upsert: true }
+            )
         }
 
         let currentCount = 5;
         let timer;
         setInterval(() => io.emit('currentCount', currentCount), 500)
+
         function countdown(count) {
+            console.log('count')
+            createAnswerInDb(currentQuestion);
             currentCount = count;
             console.log(currentCount);
             if (count) {
