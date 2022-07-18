@@ -51,11 +51,13 @@ async function start() {
     await getQuestions();
     await nextQuestion();
     // in case user entering after quiz already started or had to refresh their page after a question is done, get answer tally
-    const serverCount = await(fetch('/api/currentCount'));
+    const serverCount = await (fetch('/api/currentCount'));
     const currentCount = await serverCount.json();
-    if(currentCount === 0) {
+    if (currentCount === 0) {
         getAnswerTally();
     }
+    let recentScore = localStorage.getItem('mostRecentScore')
+    if(recentScore) score = recentScore
 }
 
 // question and progress functions
@@ -117,6 +119,8 @@ function submitAnswers() {
 
 function incrementScore() {
     scoreText.innerText = ++score;
+    localStorage.setItem('mostRecentScore', score);
+    console.log(score)
 }
 
 // Answer visualizer
@@ -177,11 +181,17 @@ function updateCount(count) {
 socket.on('setQuestion', (question, reset = false) => {
     if (reset) {
         score = 0;
+        localStorage.setItem('mostRecentScore', 0)
         scoreText.innerText = score;
     }
-    visualizerSection.classList.add('invisible');
-    currentQuestion = question;
-    nextQuestion();
+    if (question >= maxQuestions) {
+        console.log('max q')
+        window.location.replace('/results')
+    } else {
+        visualizerSection.classList.add('invisible');
+        currentQuestion = question;
+        nextQuestion();
+    }
 })
 
 socket.on('updateAnswers', answer => updateAnswers(answer))

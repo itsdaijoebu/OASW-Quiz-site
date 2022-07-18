@@ -56,16 +56,16 @@ start();
 
 
 async function start() {
-    
+
     await getQuestions();
     const serverQuestion = await (fetch('/api/currentQuestion'));
     currentQuestion = await serverQuestion.json();
     hostSetQuestion();
     setProgressBar();
     //in case host(s) close/refresh their window in the middle of a quiz, update their timer and make sure their answer tally is updated if timer
-    const serverCount = await(fetch('/api/currentCount'));
+    const serverCount = await (fetch('/api/currentCount'));
     const currentCount = await serverCount.json();
-    if(currentCount === 0) {
+    if (currentCount === 0) {
         getAnswerTally();
     }
 }
@@ -166,7 +166,7 @@ async function getAnswerTally() {
 socket.on('currentCount', count => updateCount(count))
 function updateCount(count) {
     if (!acceptingAnswers) return
-        timerText.innerText = count;
+    timerText.innerText = count;
     if (count === 0) {
         acceptingAnswers = false;
         //get answers after a delay in case something happened to cause the automatic update of the answers to be wrong
@@ -175,9 +175,12 @@ function updateCount(count) {
 }
 socket.on('setQuestion', question => {
     currentQuestion = question;
-    console.log(question)
-
-    hostNextQuestion();
+    if (question < maxQuestions) {
+        hostNextQuestion();
+    } else {
+        console.log('max q')
+        window.location.replace('/hostResults')
+    }
 })
 socket.on('updateAnswers', answer => updateAnswers(answer))
 

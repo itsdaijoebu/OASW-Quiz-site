@@ -155,6 +155,12 @@ nav, nav *{
      margin: 1rem 0;
 }
 
+.score,
+.score * {
+     text-align: center;
+     margin: 1rem;
+}
+
 
 /* SPECIFIC STYLES*/
 /* HOMEPAGE */

@@ -40,6 +40,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         let maxQuestions = 0;
         let maxTime = 0;
         getMaxTime();
+        // getMaxQuestions();
 
         app.get('/', function (req, res) {
             console.log('index');
@@ -51,7 +52,11 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         app.get('/results', function (req, res) {
             console.log('results')
-            res.sendFile('results.ejs')
+            res.render('results.ejs')
+        })
+        app.get('/hostResults', function (req, res) {
+            console.log('host results');
+            res.render('hostResults.ejs', {})
         })
         app.get('/api/allQuestions', function (req, res) {
             dbQuestions
@@ -138,7 +143,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
         function goNextQuestion() {
             console.log('next question');
-            io.emit('setQuestion', ++currentQuestion);
+            currentQuestion++;
+            io.emit('setQuestion', currentQuestion);
             stopCountdown();
             countdown(maxTime);
         }
