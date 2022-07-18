@@ -1,4 +1,7 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const PORT = process.env.PORT || 3000;
 
 const http = require("http")
@@ -63,7 +66,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             res.json(currentCount)
         })
         app.get('/api/currentAnswerTally', function (req, res) {
-            answers.find( {question: currentQuestion})
+            answers.find({ question: currentQuestion })
                 .toArray()
                 .then(result => {
                     res.json(result)
