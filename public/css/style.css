@@ -161,9 +161,7 @@ nav, nav *{
      margin: 1rem;
 }
 
-
-/* SPECIFIC STYLES*/
-/* HOMEPAGE */
+.score h1,
 .home h1 {
      margin-top: 3rem;
 }
@@ -172,11 +170,15 @@ nav, nav *{
 }
 
 .final-score-text {
-     margin-top: 3rem;
+     margin-bottom: 3rem;
 }
 
 .final-score-numbers {
-     margin-bottom: 3rem;
+     font-size: 20rem;
+}
+
+.host-score {
+     margin: 10rem;
 }
 
 .invisible {

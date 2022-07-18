@@ -52,7 +52,15 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         app.get('/results', function (req, res) {
             console.log('results')
-            res.render('results.ejs')
+            answers.find().sort({ number: 1 }).toArray()
+                .then(result => {
+                    console.log(result)
+                    res.render('results.ejs',
+                        {
+                            answers: result
+                        })
+                })
+
         })
         app.get('/hostResults', function (req, res) {
             console.log('host results');
