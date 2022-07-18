@@ -59,6 +59,16 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         app.get('/api/currentQuestion', function (req, res) {
             res.json(currentQuestion);
         })
+        app.get('/api/currentCount', function (req, res) {
+            res.json(currentCount)
+        })
+        app.get('/api/currentAnswerTally', function (req, res) {
+            answers.find( {question: currentQuestion})
+                .toArray()
+                .then(result => {
+                    res.json(result)
+                })
+        })
 
         app.get('/host', function (req, res) {
             res.render('hostControls.ejs', {})
@@ -96,6 +106,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             socket.on('goNextQuestion', () => goNextQuestion())
             socket.on('goPrevQuestion', () => goPrevQuestion())
             socket.on('resetQuiz', () => resetQuiz())
+
+            // emitting answers
+            let answersChangeStream = answers.watch();
+            answersChangeStream.on("change", change => {
+                switch (change.operationType) {
+                    case "update":
+                        socket.emit("updateAnswers", change.updateDescription.updatedFields)
+                        break;
+                }
+            })
+
         })
 
         //helper functions
@@ -155,7 +176,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         setInterval(() => io.emit('currentCount', currentCount), 500)
 
         function countdown(count) {
-            console.log('count')
             createAnswerInDb(currentQuestion);
             currentCount = count;
             console.log(currentCount);
