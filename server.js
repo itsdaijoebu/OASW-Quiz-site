@@ -38,7 +38,8 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         let dbSettings = settings.find().toArray();
         let currentQuestion = 0;
         let maxQuestions = 0;
-        let maxTime = 0;
+        let maxTime;
+        let currentCount;
         getMaxTime();
         // getMaxQuestions();
 
@@ -146,6 +147,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             dbSettings
                 .then((result) => {
                     maxTime = result[0].time;
+                    currentCount = maxTime;
                 })
         }
 
@@ -188,7 +190,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             )
         }
 
-        let currentCount = 5;
         let timer;
         setInterval(() => io.emit('currentCount', currentCount), 500)
 
