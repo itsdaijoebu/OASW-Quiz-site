@@ -30,7 +30,7 @@ let connectionString = process.env.MONGO_URI;
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
     .then(client => {
         console.log('connected to db');
-        const db = client.db('antiasian_racism');
+        const db = client.db('example_quiz');
         let questions = db.collection('questions');
         let answers = db.collection('answers');
         let settings = db.collection('settings');
@@ -163,7 +163,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             io.emit('setQuestion', --currentQuestion);
             stopCountdown();
             currentCount = maxTime;
-            // countdown(maxTime);
+            countdown(maxTime);
         }
 
 

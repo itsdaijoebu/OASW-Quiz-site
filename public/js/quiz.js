@@ -48,6 +48,9 @@ choiceContainers.forEach(container => {
 start();
 
 async function start() {
+    let serverQuestion = await(fetch('/api/currentQuestion'));
+    currentQuestion = await serverQuestion.json();
+    console.log('question', currentQuestion)
     await getQuestions();
     await nextQuestion();
     // in case user entering after quiz already started or had to refresh their page after a question is done, get answer tally
