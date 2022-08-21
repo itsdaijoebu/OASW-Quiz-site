@@ -2,6 +2,7 @@
      /* Variables */
      --main-green: #009b77;
      --accent-green: #008767;
+     --disabled-green: #9dd4c9;
      --hover-green: rgba(1, 148, 114, 0.5);
      --select-blue: #b9c1da;
      --background-color: white;
@@ -125,7 +126,7 @@ nav, nav *{
      margin-bottom: 1rem;
      text-decoration: none;
      border: 0.1rem solid var(--accent-green);
-     color: var(--main-green);
+     /* color: var(--main-green); */
      background-color: var(--main-green);
      color: white;
      border-radius: 3px;
@@ -133,6 +134,14 @@ nav, nav *{
 .btn:hover {
      cursor: pointer;
      box-shadow: 0 0.4rem 1.4rem 0 var(--hover-green);
+}
+.started.btn:hover {
+     box-shadow: none;
+}
+.started.btn {
+     background-color: var(--disabled-green);
+     color: rgb(220, 220, 220);
+     cursor: default;
 }
 .btn[disabled]:hover{
      cursor: not-allowed;

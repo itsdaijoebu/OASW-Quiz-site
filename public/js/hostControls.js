@@ -9,6 +9,7 @@ const progressBarFull = document.getElementById('progress-bar-full');
 const timerText = document.getElementById('timer-text');
 
 //host stuff
+let inProgress = false;
 const nextQuestionButton = document.getElementById('host-next');
 nextQuestionButton.addEventListener('click', () => socket.emit('goNextQuestion'));
 const prevQuestionButton = document.getElementById('host-previous');
@@ -18,6 +19,8 @@ const resetButton = document.getElementById('host-reset');
 resetButton.addEventListener('click', resetQuiz);
 const startButton = document.getElementById('host-start');
 startButton.addEventListener('click', startQuiz);
+const stopTimerButton = document.getElementById('host-stop-timer');
+stopTimerButton.addEventListener('click', stopTimer);
 
 
 // selectors for visualizer for responses given by all participants
@@ -56,7 +59,8 @@ start();
 
 
 async function start() {
-
+    inProgress = false;
+    startButton.classList.remove('started')
     await getQuestions();
     const serverQuestion = await (fetch('/api/currentQuestion'));
     currentQuestion = await serverQuestion.json();
@@ -71,13 +75,20 @@ async function start() {
 }
 
 function startQuiz() {
+    if(inProgress) return;
     socket.emit('startCountdown')
     acceptingAnswers = true;
+    inProgress = true;
+    startButton.classList.add('started')
 }
 
 function resetQuiz() {
     socket.emit('resetQuiz')
     start();
+}
+
+function stopTimer() {
+    socket.emit('stopTimer')
 }
 
 // question and progress functions
@@ -107,7 +118,6 @@ function hostSetQuestion() {
 function setProgressBar() {
     progressText.innerText = `Question: ${currentQuestion + 1} / ${maxQuestions}`
     progressBarFull.style.width = `${(currentQuestion + 1) / maxQuestions * 100}%`;
-
 }
 
 // answer functions

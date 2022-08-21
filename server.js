@@ -123,6 +123,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             socket.on('goNextQuestion', () => goNextQuestion())
             socket.on('goPrevQuestion', () => goPrevQuestion())
             socket.on('resetQuiz', () => resetQuiz())
+            socket.on('stopTimer', () => stopCountdown())
 
             // emitting answers
             let answersChangeStream = answers.watch();
@@ -133,7 +134,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                         break;
                 }
             })
-
         })
 
         //helper functions
@@ -186,7 +186,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             answers.replaceOne(
                 { question: questionNum },
                 { question: currentQuestion, 0: 0, 1: 0, 2: 0, 3: 0 },
-                { upsert: true }
+                { upsert: false }
             )
         }
 
@@ -203,6 +203,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         }
         function stopCountdown() {
             clearTimeout(timer);
+            currentCount = 0;
         }
     })
     .catch(error => console.error(error));
