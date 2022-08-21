@@ -1,7 +1,7 @@
  const socket = io(); 
  
  const finalScore = document.getElementById('finalScore');
- const mostRecentScore = localStorage.getItem('mostRecentScore');
+ const mostRecentScore = localStorage.getItem('aartMostRecentScore');
 
  finalScore.innerText = mostRecentScore;
 

@@ -194,6 +194,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
         //host functions
         function resetQuiz() {
+            generateSession();
             currentQuestion = 0;
             io.emit('setQuestion', currentQuestion, true);
             stopCountdown();
