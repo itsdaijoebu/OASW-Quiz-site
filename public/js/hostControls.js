@@ -72,11 +72,16 @@ async function start() {
     if (currentCount === 0) {
         getAnswerTally();
     }
+    const maxTime = await(fetch('/api/maxTime'))
+    if(currentQuestion != 0) {
+        inProgress = true;
+        startButton.classList.add('started');
+    }
 }
 
 function startQuiz() {
     if(inProgress) return;
-    socket.emit('startCountdown')
+    socket.emit('startQuiz')
     acceptingAnswers = true;
     inProgress = true;
     startButton.classList.add('started')

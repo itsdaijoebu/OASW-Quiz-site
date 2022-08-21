@@ -36,6 +36,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         let settings = db.collection('settings');
         let dbQuestions = questions.find().sort({ number: 1 }).toArray();
         let dbSettings = settings.find().toArray();
+        let sessionId = 0;
         let currentQuestion = 0;
         let maxQuestions = 0;
         let maxTime;
@@ -104,16 +105,21 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
             dbSettings = settings.find().toArray();
         })
 
-        app.get('/changeMaxTime', function (req, res) {
+        app.get('/api/maxTime', function (req, res) {
             getMaxTime();
             res.json(maxTime);
+        })
+        app.get('/api/sessionId', function (req, res) {
+            res.json(sessionId);
         })
 
         // websocket stuff
         io.on('connect', socket => {
             console.log(`new connection : ${socket.id}`)
             socket.emit('message', `Welcome to the quiz, ${socket.id}`)
-            socket.on('startCountdown', () => {
+            socket.on('startQuiz', () => {
+                // socket.emit('resetScore')
+                generateSession();
                 stopCountdown();
                 countdown(maxTime);
             })
@@ -144,10 +150,29 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
                 })
         }
         function getMaxTime() {
-            dbSettings
+            settings.findOne({ "setting": "time" })
                 .then((result) => {
-                    maxTime = result[0].time;
+                    maxTime = result.time;
                     currentCount = maxTime;
+                })
+        }
+        function generateSession() {
+            let session = Date.now();
+            sessionId = session;
+            settings.replaceOne(
+                { "setting": "sessionId" },
+                {
+                    "setting": "sessionId",
+                    "sessionId": sessionId
+                },
+                { upsert: true }
+            )
+            io.sockets.emit('sessionId', sessionId)
+        }
+        function getSessionId() {
+            settings.findOne({ "setting": "sessionId" })
+                .then((result) => {
+                    sessionId = result.sessionId;
                 })
         }
 

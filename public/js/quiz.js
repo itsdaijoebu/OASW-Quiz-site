@@ -37,6 +37,8 @@ let currentQuestion = 0;
 let selectedAnswer = null;
 let acceptingAnswers = false;
 
+let sessionId;
+
 //to run on startup
 choiceContainers.forEach(container => {
     container.addEventListener('click', () => {
@@ -48,9 +50,12 @@ choiceContainers.forEach(container => {
 start();
 
 async function start() {
+    let serverSession = await(fetch('/api/sessionId'))
+    sessionId = await serverSession.json();
+    
     let serverQuestion = await(fetch('/api/currentQuestion'));
     currentQuestion = await serverQuestion.json();
-    console.log('question', currentQuestion)
+    console.log('question', currentQuestion);
     await getQuestions();
     await nextQuestion();
     // in case user entering after quiz already started or had to refresh their page after a question is done, get answer tally
@@ -59,8 +64,17 @@ async function start() {
     if (currentCount === 0) {
         getAnswerTally();
     }
-    let recentScore = localStorage.getItem('mostRecentScore')
-    if(recentScore) score = recentScore
+    let sessId = await localStorage.getItem('aartMostRecentSession');
+    console.log('ss', sessId, sessionId)
+    if(sessId == sessionId) {
+        console.log('write score')
+        let recentScore = await localStorage.getItem('aartMostRecentScore');
+        if(recentScore) score = recentScore;
+    } else {
+        console.log('write session id')
+        localStorage.setItem('aartMostRecentSession', sessionId);
+    }
+    scoreText.innerText = score;
 }
 
 // question and progress functions
@@ -122,7 +136,8 @@ function submitAnswers() {
 
 function incrementScore() {
     scoreText.innerText = ++score;
-    localStorage.setItem('mostRecentScore', score);
+    localStorage.setItem('aartMostRecentScore', score);
+    localStorage.setItem('aartMostRecentSession', sessionId);
     console.log(score)
 }
 
@@ -165,6 +180,10 @@ async function getAnswerTally() {
 socket.on('message', message => {
     console.log(message);
 })
+socket.on('sessionId', sessId => {
+    sessionId = sessId;
+
+})
 
 socket.on('currentCount', count => {
     if (acceptingAnswers)
@@ -181,10 +200,23 @@ function updateCount(count) {
     }
 }
 
-socket.on('setQuestion', (question, reset = false) => {
+socket.on('sessionId', sessId => {
+    sessionId = sessId;
+    console.log('got emitted a sess id', sessionId, sessId)
+
+    localStorage.setItem('aartMostRecentSession', sessionId)
+})
+socket.on('resetScore', () => {
+    score = 0;
+    localStorage.setItem('aartMostRecentScore', 0);
+    scoreText.innerText = score;
+})
+
+socket.on('setQuestion', (question, reset = false, sessId = sessionId) => {
     if (reset) {
         score = 0;
-        localStorage.setItem('mostRecentScore', 0)
+        localStorage.setItem('aartMostRecentScore', 0)
+        localStorage.setItem('aartMostRecentSession', sessId)
         scoreText.innerText = score;
     }
     if (question >= maxQuestions) {
