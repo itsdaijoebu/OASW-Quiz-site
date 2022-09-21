@@ -4,7 +4,7 @@
  While multiple participants can take part in the quiz, a single instance of the host controls must be opened to start/stop the timer and advance the quiz.
  
 ## Host Controls
-![Host Controls](https://user-images.githubusercontent.com/93284023/191536986-60c01df7-3f4b-4a0b-ad49-0d3f5586644c.jpg =250x250)
+<img src="https://user-images.githubusercontent.com/93284023/191536986-60c01df7-3f4b-4a0b-ad49-0d3f5586644c.jpg" width=250>
 
  **Start:** Pressed once at the beginning to start the quiz.
  **Stop:** Stops the timer for the current question in case the host wants to end the timer prematurely.
