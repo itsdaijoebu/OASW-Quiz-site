@@ -9,7 +9,7 @@
  <b>Reset:</b> Resets the entire quiz.<br>
  <b>Next:</b> Goes to the next question.<br>
  <b>Previous:</b> Goes to the previous question.<br>
- Green shows the correct answer while red shows incorrect answers.<br>
+ <b>Green</b> shows the correct answer while <b>red shows</b> incorrect answers.<br>
  
  
  ## Participant View
