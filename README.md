@@ -7,9 +7,9 @@
 
  **Start:** Pressed once at the beginning to start the quiz.  
  **Stop:** Stops the timer for the current question in case the host wants to end the timer prematurely.  
- **Reset:** Resets the entire quiz.
- **Next:** Goes to the next question.
- **Previous:** Goes to the previous question.
+ **Reset:** Resets the entire quiz.  
+ **Next:** Goes to the next question.  
+ **Previous:** Goes to the previous question.  
  
  ## Participant View
  
