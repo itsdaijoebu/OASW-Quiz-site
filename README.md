@@ -4,7 +4,7 @@
  While multiple participants can take part in the quiz, a single instance of the host controls must be opened to start/stop the timer and advance the quiz.
  
 ## Host Controls
-![Host Controls](https://drive.google.com/file/d/open?id=10cCg1XfrolOfHASJNtCoM3w1w0pYBAoY/)
+![Host Controls](https://drive.google.com/file/d/uc?id=10cCg1XfrolOfHASJNtCoM3w1w0pYBAoY/)
  **Start:** Pressed once at the beginning to start the quiz.
  **Stop:** Stops the timer for the current question in case the host wants to end the timer prematurely.
  **Reset:** Resets the entire quiz.
