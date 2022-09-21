@@ -5,11 +5,11 @@
 ## Host Controls
 <img src="https://user-images.githubusercontent.com/93284023/191536986-60c01df7-3f4b-4a0b-ad49-0d3f5586644c.jpg" width=500 alt="Host controls">
 Green shows the correct answer while red shows incorrect answers.<br>
- <b>Start:</b> Pressed once at the beginning to start the quiz.  
- **Stop:** Stops the timer for the current question in case the host wants to end the timer prematurely.  
- **Reset:** Resets the entire quiz.  
- **Next:** Goes to the next question.  
- **Previous:** Goes to the previous question.  
+ <b>Start:</b> Pressed once at the beginning to start the quiz.<br>
+ <b>Stop:</b> Stops the timer for the current question in case the host wants to end the timer prematurely.<br>
+ <b>Reset:</b> Resets the entire quiz.<br>
+ <b>Next:</b> Goes to the next question.<br>
+  <b>Previous:</b> Goes to the previous question.<br>
  
  
  ## Participant View
