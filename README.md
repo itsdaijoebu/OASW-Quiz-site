@@ -17,3 +17,7 @@
  
 <img src ="https://user-images.githubusercontent.com/93284023/191541262-2829fe30-486a-43df-9019-0b7041957004.jpg" width=500 alt="Participant view while quiz is running"><img src="https://user-images.githubusercontent.com/93284023/191537119-aa8036b3-90c4-403a-a2dc-40f1f2143f9b.jpg" width=500 alt="Participant view while reviewing an answer"><br>
 Participants' answers are highlighted and can be changed until the timer either runs out or is manually stopped by the host. On timer expiry, participant answers remain highlighted, the incorrect answers' backgrounds are changed to red, and a graph showing the percentage of participants who gave each answer is displayed.
+
+
+## Optimizations and Extensions
+Were this to be further developed to scale beyond single workshop sessions, I would implement the ability to have multiple rooms so multiple quizzes could be taken concurrently, since at the moment, there is only a single instance of the questions running on the server at any given time. I would also implement an authentication system so that participants could keep track of the quizzes they have taken/are able to take, and so that admins could add/edit more quizzes.
