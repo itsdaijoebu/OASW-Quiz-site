@@ -96,13 +96,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
         //reset calls
         app.get('/api/resetQuestions', function (req, res) {
-            dbQuestions = questions.find().toArray();
+            dbQuestions = questions.find().sort({ number: 1 }).toArray();
+            
         })
         app.get('/api/resetSettings', function (req, res) {
             dbSettings = settings.find().toArray();
         })
         app.get('/api/resetAll', function (req, res) {
-            dbQuestions = questions.find().toArray();
+            dbQuestions = questions.find().sort({ number: 1 }).toArray();
             dbSettings = settings.find().toArray();
         })
 
